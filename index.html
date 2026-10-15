@@ -156,8 +156,8 @@
     .question-card.answered-wrong { border-color: var(--wrong); box-shadow: 0 0 30px rgba(230,57,70,.2); }
 
     .question-text { font-size: 1.15rem; font-weight: 500; line-height: 1.6; margin-bottom: 1.5rem; color: var(--text-primary); }
-    .chinese-text { font-family: 'Noto Sans SC', sans-serif; font-size: 1.5rem; color: var(--accent-gold); display: block; margin: .4rem 0; }
-    .pinyin-text { font-size: 1rem; color: var(--accent-jade); display: block; margin-bottom: .3rem; font-style: italic; }
+    .chinese-text { font-family: 'Noto Sans SC', sans-serif; font-size: 1.5rem; color: var(--accent-gold); display: block; margin: .4rem 0 .1rem; }
+    .pinyin-text { font-size: 1rem; color: var(--accent-jade); display: block; margin-bottom: .4rem; font-style: italic; font-weight: 400; }
 
     .options-grid { display: grid; gap: .75rem; grid-template-columns: 1fr 1fr; }
     .options-grid.single-col { grid-template-columns: 1fr; }
@@ -167,7 +167,7 @@
       border-radius: 12px; padding: .9rem 1.2rem;
       color: var(--text-primary); font-family: 'Outfit', sans-serif; font-size: .95rem;
       cursor: pointer; transition: all .2s; text-align: left;
-      display: flex; align-items: center; gap: .7rem;
+      display: flex; align-items: center; gap: .7rem; line-height: 1.4;
     }
     .option-btn:hover:not(:disabled) { border-color: var(--border-glow); background: rgba(123,47,255,.1); transform: translateX(4px); }
     .option-btn:disabled { cursor: default; }
@@ -312,7 +312,7 @@
   <div id="start-screen">
     <div class="start-card">
       <h2>🚀 Mulai Latihan HSK 1</h2>
-      <p>Setiap sesi menampilkan <strong>50 soal acak</strong> dari bank 250 soal mencakup <strong>Latihan 1</strong> (Kosakata), <strong>Latihan 2</strong> (Lengkapi Kalimat), dan <strong>Latihan 3</strong> (Pemahaman Dialog).</p>
+      <p>Setiap sesi menampilkan <strong>50 soal acak</strong> dari bank 250 soal mencakup <strong>Latihan 1</strong> (Kosakata), <strong>Latihan 2</strong> (Lengkapi Kalimat), dan <strong>Latihan 3</strong> (Pemahaman Dialog) — <em>kini dilengkapi Pinyin di setiap Hanzi!</em></p>
 
       <div class="info-grid">
         <div class="info-box"><div class="num">250</div><div class="label">Total Bank Soal</div></div>
@@ -406,14 +406,14 @@
 <script>
 // ════════════════════════════════════════════════════════════
 //  BANK SOAL 250 SOAL — HSK 1
-//  L1 = Kosakata/Terjemahan (90 soal)
-//  L2 = Struktur Kalimat/Grammar (90 soal)
-//  L3 = Pemahaman Kalimat/Dialog (70 soal)
+//  L1 = Kosakata/Terjemahan (98 soal)
+//  L2 = Struktur Kalimat/Grammar (85 soal) — FULL PINYIN
+//  L3 = Pemahaman Kalimat/Dialog (67 soal) — FULL PINYIN
 // ════════════════════════════════════════════════════════════
 const questionBank = [
 
 // ══════════════════════════════════════════
-// LATIHAN 1 — KOSAKATA & TERJEMAHAN (90)
+// LATIHAN 1 — KOSAKATA & TERJEMAHAN
 // ══════════════════════════════════════════
 // Orang & Keluarga
 {type:'L1',q:'Apa arti kata <span class="chinese-text">我</span><span class="pinyin-text">wǒ</span>?',opts:['Saya / Aku','Kamu','Dia','Kami'],ans:0},
@@ -424,7 +424,7 @@ const questionBank = [
 {type:'L1',q:'Kata Mandarin untuk "Ayah" adalah...',opts:['妈妈','儿子','爸爸','女儿'],ans:2},
 {type:'L1',q:'Kata Mandarin untuk "Ibu" adalah...',opts:['爸爸','妈妈','女儿','儿子'],ans:1},
 {type:'L1',q:'Apa arti <span class="chinese-text">儿子</span><span class="pinyin-text">érzi</span>?',opts:['Anak perempuan','Teman','Anak laki-laki','Saudara'],ans:2},
-{type:'L1',q:'Apa arti <span class="chinese-text">女儿</span><span class="pinyin-text">nǚér</span>?',opts:['Ibu','Anak perempuan','Anak laki-laki','Kakak'],ans:1},
+{type:'L1',q:'Apa arti <span class="chinese-text">女儿</span><span class="pinyin-text">nǚ\'ér</span>?',opts:['Ibu','Anak perempuan','Anak laki-laki','Kakak'],ans:1},
 {type:'L1',q:'Apa arti <span class="chinese-text">朋友</span><span class="pinyin-text">péngyou</span>?',opts:['Musuh','Teman sekelas','Guru','Teman'],ans:3},
 {type:'L1',q:'Apa arti <span class="chinese-text">同学</span><span class="pinyin-text">tóngxué</span>?',opts:['Teman biasa','Teman sekelas','Teman kerja','Teman dekat'],ans:1},
 // Profesi
@@ -465,7 +465,7 @@ const questionBank = [
 {type:'L1',q:'Apa arti <span class="chinese-text">商店</span><span class="pinyin-text">shāngdiàn</span>?',opts:['Restoran','Rumah sakit','Toko','Sekolah'],ans:2},
 {type:'L1',q:'Apa arti <span class="chinese-text">饭店</span><span class="pinyin-text">fàndiàn</span>?',opts:['Toko','Restoran / Hotel','Rumah','Sekolah'],ans:1},
 {type:'L1',q:'Kata Mandarin untuk "Rumah/Keluarga" adalah...',opts:['学校','医院','家','商店'],ans:2},
-{type:'L1',q:'<span class="chinese-text">北京</span> adalah nama kota...',opts:['Shanghai','Guangzhou','Beijing','Chengdu'],ans:2},
+{type:'L1',q:'<span class="chinese-text">北京</span><span class="pinyin-text">Běijīng</span> adalah nama kota...',opts:['Shanghai','Guangzhou','Beijing','Chengdu'],ans:2},
 {type:'L1',q:'Apa arti <span class="chinese-text">中国</span><span class="pinyin-text">Zhōngguó</span>?',opts:['Jepang','Korea','China / Tiongkok','Vietnam'],ans:2},
 // Arah & Posisi
 {type:'L1',q:'Apa arti <span class="chinese-text">上</span><span class="pinyin-text">shàng</span>?',opts:['Bawah','Atas / Naik','Depan','Belakang'],ans:1},
@@ -519,7 +519,7 @@ const questionBank = [
 {type:'L1',q:'<span class="chinese-text">什么</span><span class="pinyin-text">shénme</span> artinya...',opts:['Siapa','Apa','Di mana','Berapa'],ans:1},
 {type:'L1',q:'<span class="chinese-text">谁</span><span class="pinyin-text">shéi</span> artinya...',opts:['Apa','Berapa','Siapa','Di mana'],ans:2},
 {type:'L1',q:'<span class="chinese-text">哪儿</span><span class="pinyin-text">nǎr</span> artinya...',opts:['Siapa','Kapan','Apa','Di mana'],ans:3},
-{type:'L1',q:'<span class="chinese-text">多少</span><span class="pinyin-text">duōshǎo</span> digunakan untuk...',opts:['Menanyakan siapa','Menanyakan jumlah/harga','Menanyakan waktu','Menanyakan tempat'],ans:1},
+{type:'L1',q:'<span class="chinese-text">多少</span><span class="pinyin-text">duōshao</span> digunakan untuk...',opts:['Menanyakan siapa','Menanyakan jumlah/harga','Menanyakan waktu','Menanyakan tempat'],ans:1},
 // Ungkapan
 {type:'L1',q:'Apa arti <span class="chinese-text">谢谢</span><span class="pinyin-text">xièxie</span>?',opts:['Maaf','Sama-sama','Terima kasih','Permisi'],ans:2},
 {type:'L1',q:'Apa arti <span class="chinese-text">对不起</span><span class="pinyin-text">duìbuqǐ</span>?',opts:['Terima kasih','Maaf','Permisi','Sama-sama'],ans:1},
@@ -533,176 +533,176 @@ const questionBank = [
 {type:'L1',q:'Apa arti <span class="chinese-text">名字</span><span class="pinyin-text">míngzi</span>?',opts:['Alamat','Nomor telepon','Nama','Umur'],ans:2},
 
 // ══════════════════════════════════════════
-// LATIHAN 2 — STRUKTUR KALIMAT & GRAMMAR (90)
+// LATIHAN 2 — STRUKTUR KALIMAT & GRAMMAR (DENGAN PINYIN)
 // ══════════════════════════════════════════
-{type:'L2',q:'Pilih kata yang tepat:<br>我的 _____ 叫李明。<br><em>(Nama saya Li Ming.)</em>',opts:['岁','名字','学生','认识'],ans:1},
-{type:'L2',q:'Pilih kata yang tepat:<br>我 _____ 李明，今年十八岁。<br><em>(Nama saya Li Ming, tahun ini 18 tahun.)</em>',opts:['是','叫','有','在'],ans:1},
-{type:'L2',q:'Pilih kata yang tepat:<br>很高兴 _____ 你！<br><em>(Senang berkenalan denganmu!)</em>',opts:['知道','看见','认识','喜欢'],ans:2},
-{type:'L2',q:'Pilih kata yang tepat:<br>我是 _____，我在学校学习。<br><em>(Saya adalah pelajar.)</em>',opts:['老师','医生','学生','先生'],ans:2},
-{type:'L2',q:'Pilih kata yang tepat:<br>我喜欢学 _____，汉字很有意思。',opts:['英语','汉语','数学','音乐'],ans:1},
-{type:'L2',q:'Pilih kata yang tepat:<br>我每天早上 _____ 茶。<br><em>(Saya minum teh setiap pagi.)</em>',opts:['吃','喝','买','看'],ans:1},
-{type:'L2',q:'Pilih kata yang tepat:<br>他不 _____ 米饭，他喜欢吃苹果。',opts:['喝','买','吃','做'],ans:2},
-{type:'L2',q:'Pilih kata yang tepat:<br>妈妈去商店 _____ 东西。',opts:['看','卖','买','拿'],ans:2},
-{type:'L2',q:'Pilih kata yang tepat:<br>晚上我喜欢 _____ 电视。',opts:['听','读','看','写'],ans:2},
-{type:'L2',q:'Pilih kata yang tepat:<br>我很累，想 _____ 了。',opts:['吃饭','工作','学习','睡觉'],ans:3},
+{type:'L2',q:'Pilih kata yang tepat:<br><span class="chinese-text">我的 _____ 叫李明。</span><span class="pinyin-text">Wǒ de _____ jiào Lǐ Míng.</span><em>(Nama saya Li Ming.)</em>',opts:['岁 (suì)','名字 (míngzi)','学生 (xuésheng)','认识 (rènshi)'],ans:1},
+{type:'L2',q:'Pilih kata yang tepat:<br><span class="chinese-text">我 _____ 李明，今年十八岁。</span><span class="pinyin-text">Wǒ _____ Lǐ Míng, jīnnián shíbā suì.</span><em>(Nama saya Li Ming, tahun ini 18 tahun.)</em>',opts:['是 (shì)','叫 (jiào)','有 (yǒu)','在 (zài)'],ans:1},
+{type:'L2',q:'Pilih kata yang tepat:<br><span class="chinese-text">很高兴 _____ 你！</span><span class="pinyin-text">Hěn gāoxìng _____ nǐ!</span><em>(Senang berkenalan denganmu!)</em>',opts:['知道 (zhīdào)','看见 (kànjiàn)','认识 (rènshi)','喜欢 (xǐhuan)'],ans:2},
+{type:'L2',q:'Pilih kata yang tepat:<br><span class="chinese-text">我是 _____，我在学校学习。</span><span class="pinyin-text">Wǒ shì _____, wǒ zài xuéxiào xuéxí.</span><em>(Saya adalah pelajar.)</em>',opts:['老师 (lǎoshī)','医生 (yīshēng)','学生 (xuésheng)','先生 (xiānsheng)'],ans:2},
+{type:'L2',q:'Pilih kata yang tepat:<br><span class="chinese-text">我喜欢学 _____，汉字很有意思。</span><span class="pinyin-text">Wǒ xǐhuan xué _____, Hànzì hěn yǒu yìsi.</span>',opts:['英语 (Yīngyǔ)','汉语 (Hànyǔ)','数学 (shùxué)','音乐 (yīnyuè)'],ans:1},
+{type:'L2',q:'Pilih kata yang tepat:<br><span class="chinese-text">我每天早上 _____ 茶。</span><span class="pinyin-text">Wǒ měitiān zǎoshang _____ chá.</span><em>(Saya minum teh setiap pagi.)</em>',opts:['吃 (chī)','喝 (hē)','买 (mǎi)','看 (kàn)'],ans:1},
+{type:'L2',q:'Pilih kata yang tepat:<br><span class="chinese-text">他不 _____ 米饭，他喜欢吃苹果。</span><span class="pinyin-text">Tā bù _____ mǐfàn, tā xǐhuan chī píngguǒ.</span>',opts:['喝 (hē)','买 (mǎi)','吃 (chī)','做 (zuò)'],ans:2},
+{type:'L2',q:'Pilih kata yang tepat:<br><span class="chinese-text">妈妈去商店 _____ 东西。</span><span class="pinyin-text">Māma qù shāngdiàn _____ dōngxi.</span>',opts:['看 (kàn)','卖 (mài)','买 (mǎi)','拿 (ná)'],ans:2},
+{type:'L2',q:'Pilih kata yang tepat:<br><span class="chinese-text">晚上我喜欢 _____ 电视。</span><span class="pinyin-text">Wǎnshang wǒ xǐhuan _____ diànshì.</span>',opts:['听 (tīng)','读 (dú)','看 (kàn)','写 (xiě)'],ans:2},
+{type:'L2',q:'Pilih kata yang tepat:<br><span class="chinese-text">我很累，想 _____ 了。</span><span class="pinyin-text">Wǒ hěn lèi, xiǎng _____ le.</span>',opts:['吃饭 (chīfàn)','工作 (gōngzuò)','学习 (xuéxí)','睡觉 (shuìjiào)'],ans:3},
 // Kata Tanya
-{type:'L2',q:'Pilih kata tanya yang tepat:<br>你叫 _____ 名字？',opts:['谁','哪儿','什么','几'],ans:2},
-{type:'L2',q:'Pilih kata tanya yang tepat:<br>这本书是 _____ 的？',opts:['什么','谁','哪儿','多少'],ans:1},
-{type:'L2',q:'Pilih kata tanya yang tepat:<br>你家在 _____？',opts:['什么','谁','几','哪儿'],ans:3},
-{type:'L2',q:'Pilih kata tanya yang tepat:<br>现在 _____ 点了？',opts:['多少','什么','几','哪儿'],ans:2},
-{type:'L2',q:'Pilih kata tanya yang tepat:<br>这个苹果 _____ 钱？',opts:['几','多少','什么','谁'],ans:1},
-{type:'L2',q:'Pilih kata tanya yang tepat:<br>你今天身体 _____？',opts:['怎么','什么','多少','怎么样'],ans:3},
-{type:'L2',q:'Pilih partikel yang tepat:<br>你喜欢喝茶 _____？',opts:['呢','吗','的','了'],ans:1},
+{type:'L2',q:'Pilih kata tanya yang tepat:<br><span class="chinese-text">你叫 _____ 名字？</span><span class="pinyin-text">Nǐ jiào _____ míngzi?</span>',opts:['谁 (shéi)','哪儿 (nǎr)','什么 (shénme)','几 (jǐ)'],ans:2},
+{type:'L2',q:'Pilih kata tanya yang tepat:<br><span class="chinese-text">这本书是 _____ 的？</span><span class="pinyin-text">Zhè běn shū shì _____ de?</span>',opts:['什么 (shénme)','谁 (shéi)','哪儿 (nǎr)','多少 (duōshao)'],ans:1},
+{type:'L2',q:'Pilih kata tanya yang tepat:<br><span class="chinese-text">你家在 _____？</span><span class="pinyin-text">Nǐ jiā zài _____?</span>',opts:['什么 (shénme)','谁 (shéi)','几 (jǐ)','哪儿 (nǎr)'],ans:3},
+{type:'L2',q:'Pilih kata tanya yang tepat:<br><span class="chinese-text">现在 _____ 点了？</span><span class="pinyin-text">Xiànzài _____ diǎn le?</span>',opts:['多少 (duōshao)','什么 (shénme)','几 (jǐ)','哪儿 (nǎr)'],ans:2},
+{type:'L2',q:'Pilih kata tanya yang tepat:<br><span class="chinese-text">这个苹果 _____ 钱？</span><span class="pinyin-text">Zhège píngguǒ _____ qián?</span>',opts:['几 (jǐ)','多少 (duōshao)','什么 (shénme)','谁 (shéi)'],ans:1},
+{type:'L2',q:'Pilih kata tanya yang tepat:<br><span class="chinese-text">你今天身体 _____？</span><span class="pinyin-text">Nǐ jīntiān shēntǐ _____?</span>',opts:['怎么 (zěnme)','什么 (shénme)','多少 (duōshao)','怎么样 (zěnmeyàng)'],ans:3},
+{type:'L2',q:'Pilih partikel yang tepat:<br><span class="chinese-text">你喜欢喝茶 _____？</span><span class="pinyin-text">Nǐ xǐhuan hē chá _____?</span>',opts:['呢 (ne)','吗 (ma)','的 (de)','了 (le)'],ans:1},
 // Lokasi & Posisi
-{type:'L2',q:'Pilih kata yang tepat:<br>书 _____ 桌子上。<br><em>(Buku ada di atas meja.)</em>',opts:['去','来','在','是'],ans:2},
-{type:'L2',q:'Pilih kata posisi yang tepat:<br>猫在椅子 _____。<br><em>(Kucing ada di bawah kursi.)</em>',opts:['上面','里面','后面','下面'],ans:3},
-{type:'L2',q:'Pilih kata yang tepat:<br>学校 _____ 有一个商店。',opts:['里面','前面','后面','上面'],ans:1},
-{type:'L2',q:'Pilih kata yang tepat:<br>_____ 几点了？—— 八点了。',opts:['今天','明天','现在','昨天'],ans:2},
-{type:'L2',q:'Pilih kata yang tepat:<br>_____ 天气很好，我们去公园吧。',opts:['明天','现在','昨天','今天'],ans:3},
+{type:'L2',q:'Pilih kata yang tepat:<br><span class="chinese-text">书 _____ 桌子上。</span><span class="pinyin-text">Shū _____ zhuōzi shàng.</span><em>(Buku ada di atas meja.)</em>',opts:['去 (qù)','来 (lái)','在 (zài)','是 (shì)'],ans:2},
+{type:'L2',q:'Pilih kata posisi yang tepat:<br><span class="chinese-text">猫在椅子 _____。</span><span class="pinyin-text">Māo zài yǐzi _____.</span><em>(Kucing ada di bawah kursi.)</em>',opts:['上面 (shàngmiàn)','里面 (lǐmiàn)','后面 (hòumiàn)','下面 (xiàmiàn)'],ans:3},
+{type:'L2',q:'Pilih kata yang tepat:<br><span class="chinese-text">学校 _____ 有一个商店。</span><span class="pinyin-text">Xuéxiào _____ yǒu yī gè shāngdiàn.</span>',opts:['里面 (lǐmiàn)','前面 (qiánmiàn)','后面 (hòumiàn)','上面 (shàngmiàn)'],ans:1},
+{type:'L2',q:'Pilih kata yang tepat:<br><span class="chinese-text">_____ 几点了？—— 八点了。</span><span class="pinyin-text">_____ jǐ diǎn le? —— Bā diǎn le.</span>',opts:['今天 (Jīntiān)','明天 (Míngtiān)','现在 (Xiànzài)','昨天 (Zuótiān)'],ans:2},
+{type:'L2',q:'Pilih kata yang tepat:<br><span class="chinese-text">_____ 天气很好，我们去公园吧。</span><span class="pinyin-text">_____ tiānqì hěn hǎo, wǒmen qù gōngyuán ba.</span>',opts:['明天 (Míngtiān)','现在 (Xiànzài)','昨天 (Zuótiān)','今天 (Jīntiān)'],ans:3},
 // Kata Keterangan
-{type:'L2',q:'Pilih kata yang tepat:<br>这个苹果 _____ 甜了，我不喜欢。',opts:['很','都','太','一点儿'],ans:2},
-{type:'L2',q:'Pilih kata yang tepat:<br>我的书包 _____ 重，你帮我吧。',opts:['太','都','一点儿','很'],ans:3},
-{type:'L2',q:'Pilih kata yang tepat:<br>妈妈和爸爸 _____ 喜欢喝茶。',opts:['很','太','一点儿','都'],ans:3},
-{type:'L2',q:'Pilih kata yang tepat:<br>请给我 _____ 水，谢谢。',opts:['很多','太多','一点儿','都'],ans:2},
+{type:'L2',q:'Pilih kata yang tepat:<br><span class="chinese-text">这个苹果 _____ 甜了，我不喜欢。</span><span class="pinyin-text">Zhège píngguǒ _____ tián le, wǒ bù xǐhuan.</span>',opts:['很 (hěn)','都 (dōu)','太 (tài)','一点儿 (yīdiǎnr)'],ans:2},
+{type:'L2',q:'Pilih kata yang tepat:<br><span class="chinese-text">我的书包 _____ 重，你帮我吧。</span><span class="pinyin-text">Wǒ de shūbāo _____ zhòng, nǐ bāng wǒ ba.</span>',opts:['太 (tài)','都 (dōu)','一点儿 (yīdiǎnr)','很 (hěn)'],ans:3},
+{type:'L2',q:'Pilih kata yang tepat:<br><span class="chinese-text">妈妈和爸爸 _____ 喜欢喝茶。</span><span class="pinyin-text">Māma hé bàba _____ xǐhuan hē chá.</span>',opts:['很 (hěn)','太 (tài)','一点儿 (yīdiǎnr)','都 (dōu)'],ans:3},
+{type:'L2',q:'Pilih kata yang tepat:<br><span class="chinese-text">请给我 _____ 水，谢谢。</span><span class="pinyin-text">Qǐng gěi wǒ _____ shuǐ, xièxie.</span>',opts:['很多 (hěn duō)','太多 (tài duō)','一点儿 (yīdiǎnr)','都 (dōu)'],ans:2},
 // Kalimat Benar/Salah
-{type:'L2',q:'Kalimat manakah yang BENAR?',opts:['我是去学校。','我去学校。','我去是学校。','学校我去。'],ans:1},
-{type:'L2',q:'Terjemahan "Saya tidak minum teh" yang benar adalah...',opts:['我喝不茶。','我不喝茶。','我茶不喝。','不我喝茶。'],ans:1},
-{type:'L2',q:'Terjemahan "Apakah kamu seorang pelajar?" yang benar adalah...',opts:['你是学生吗？','你学生是吗？','你吗是学生？','是你学生吗？'],ans:0},
-{type:'L2',q:'Kata yang tepat: 她很 _____，大家都喜欢她。',opts:['大','好','漂亮','高兴'],ans:2},
-{type:'L2',q:'Pilih jawaban yang benar untuk: 你好吗？',opts:['我好，谢谢！','是，我好。','谢谢，你好？','我是好。'],ans:0},
+{type:'L2',q:'Kalimat manakah yang BENAR?',opts:['我是去学校。 (Wǒ shì qù xuéxiào.)','我去学校。 (Wǒ qù xuéxiào.)','我去是学校。 (Wǒ qù shì xuéxiào.)','学校我去。 (Xuéxiào wǒ qù.)'],ans:1},
+{type:'L2',q:'Terjemahan "Saya tidak minum teh" yang benar adalah...',opts:['我喝不茶。 (Wǒ hē bù chá.)','我不喝茶。 (Wǒ bù hē chá.)','我茶不喝。 (Wǒ chá bù hē.)','不我喝茶。 (Bù wǒ hē chá.)'],ans:1},
+{type:'L2',q:'Terjemahan "Apakah kamu seorang pelajar?" yang benar adalah...',opts:['你是学生吗？ (Nǐ shì xuésheng ma?)','你学生是吗？ (Nǐ xuésheng shì ma?)','你吗是学生？ (Nǐ ma shì xuésheng?)','是你学生吗？ (Shì nǐ xuésheng ma?)'],ans:0},
+{type:'L2',q:'Kata yang tepat:<br><span class="chinese-text">她很 _____，大家都喜欢她。</span><span class="pinyin-text">Tā hěn _____, dàjiā dōu xǐhuan tā.</span>',opts:['大 (dà)','好 (hǎo)','漂亮 (piàoliang)','高兴 (gāoxìng)'],ans:2},
+{type:'L2',q:'Pilih jawaban yang benar untuk:<br><span class="chinese-text">你好吗？</span><span class="pinyin-text">Nǐ hǎo ma?</span>',opts:['我很好，谢谢！ (Wǒ hěn hǎo, xièxie!)','是，我好。 (Shì, wǒ hǎo.)','谢谢，你好？ (Xièxie, nǐ hǎo?)','我是好。 (Wǒ shì hǎo.)'],ans:0},
 // Dialog
-{type:'L2',q:'Dialog: A: "你叫什么名字？" B: "_____"',opts:['我在北京。','我叫王明。','我是学生。','我喜欢吃苹果。'],ans:1},
-{type:'L2',q:'Dialog: A: "你家在哪儿？" B: "_____"',opts:['我家很好。','我的猫叫咪咪。','我家在北京。','我今天很高兴。'],ans:2},
-{type:'L2',q:'Dialog: A: "现在几点？" B: "_____"',opts:['今天星期三。','现在上午九点。','昨天下午三点。','明天八点。'],ans:1},
-{type:'L2',q:'A: "你喝茶吗？" B回答TIDAK yang benar...',opts:['我不喝茶。','我喝茶不。','茶我不。','不，我喝茶。'],ans:0},
-{type:'L2',q:'A: "谢谢你！" B: "_____"',opts:['对不起！','再见！','不客气！','你好！'],ans:2},
+{type:'L2',q:'Dialog:<br>A: <span class="chinese-text">"你叫什么名字？"</span><span class="pinyin-text">"Nǐ jiào shénme míngzi?"</span>B: "_____"',opts:['我在北京。 (Wǒ zài Běijīng.)','我叫王明。 (Wǒ jiào Wáng Míng.)','我是学生。 (Wǒ shì xuésheng.)','我喜欢吃苹果。 (Wǒ xǐhuan chī píngguǒ.)'],ans:1},
+{type:'L2',q:'Dialog:<br>A: <span class="chinese-text">"你家在哪儿？"</span><span class="pinyin-text">"Nǐ jiā zài nǎr?"</span>B: "_____"',opts:['我家很好。 (Wǒ jiā hěn hǎo.)','我的猫叫咪咪。 (Wǒ de māo jiào Mīmī.)','我家在北京。 (Wǒ jiā zài Běijīng.)','我今天很高兴。 (Wǒ jīntiān hěn gāoxìng.)'],ans:2},
+{type:'L2',q:'Dialog:<br>A: <span class="chinese-text">"现在几点？"</span><span class="pinyin-text">"Xiànzài jǐ diǎn?"</span>B: "_____"',opts:['今天星期三。 (Jīntiān xīngqīsān.)','现在上午九点。 (Xiànzài shàngwǔ jiǔ diǎn.)','昨天下午三点。 (Zuótiān xiàwǔ sān diǎn.)','明天八点。 (Míngtiān bā diǎn.)'],ans:1},
+{type:'L2',q:'Dialog:<br>A: <span class="chinese-text">"你喝茶吗？"</span><span class="pinyin-text">"Nǐ hē chá ma?"</span>B menjawab TIDAK dengan benar...',opts:['我不喝茶。 (Wǒ bù hē chá.)','我喝茶不。 (Wǒ hē chá bù.)','茶我不。 (Chá wǒ bù.)','不，我喝茶。 (Bù, wǒ hē chá.)'],ans:0},
+{type:'L2',q:'Dialog:<br>A: <span class="chinese-text">"谢谢你！"</span><span class="pinyin-text">"Xièxie nǐ!"</span>B: "_____"',opts:['对不起！ (Duìbuqǐ!)','再见！ (Zàijiàn!)','不客气！ (Bú kèqi!)','你好！ (Nǐ hǎo!)'],ans:2},
 // Partikel
-{type:'L2',q:'Partikel <span class="chinese-text">吗</span> digunakan untuk...',opts:['Menyatakan kepemilikan','Membentuk kalimat tanya ya/tidak','Menyatakan aspek selesai','Menanyakan balik'],ans:1},
-{type:'L2',q:'Partikel <span class="chinese-text">的</span> digunakan untuk...',opts:['Menyatakan pertanyaan','Menyatakan kepemilikan','Menyatakan aspek selesai','Menyatakan negasi'],ans:1},
-{type:'L2',q:'Partikel <span class="chinese-text">了</span> digunakan untuk...',opts:['Menanyakan','Menyatakan kepemilikan','Menyatakan aspek selesai/perubahan','Menyatakan lokasi'],ans:2},
-{type:'L2',q:'Partikel <span class="chinese-text">呢</span> digunakan untuk...',opts:['Menanyakan ya/tidak','Menanyakan balik','Menyatakan kepemilikan','Menyatakan negasi'],ans:1},
+{type:'L2',q:'Partikel <span class="chinese-text">吗</span><span class="pinyin-text">ma</span> digunakan untuk...',opts:['Menyatakan kepemilikan','Membentuk kalimat tanya ya/tidak','Menyatakan aspek selesai','Menanyakan balik'],ans:1},
+{type:'L2',q:'Partikel <span class="chinese-text">的</span><span class="pinyin-text">de</span> digunakan untuk...',opts:['Menyatakan pertanyaan','Menyatakan kepemilikan','Menyatakan aspek selesai','Menyatakan negasi'],ans:1},
+{type:'L2',q:'Partikel <span class="chinese-text">了</span><span class="pinyin-text">le</span> digunakan untuk...',opts:['Menanyakan','Menyatakan kepemilikan','Menyatakan aspek selesai/perubahan','Menyatakan lokasi'],ans:2},
+{type:'L2',q:'Partikel <span class="chinese-text">呢</span><span class="pinyin-text">ne</span> digunakan untuk...',opts:['Menanyakan ya/tidak','Menanyakan balik','Menyatakan kepemilikan','Menyatakan negasi'],ans:1},
 // Kontekstual
-{type:'L2',q:'Dalam kalimat "我在学校学习", kata 在 berfungsi sebagai...',opts:['Kata kerja (berada di)','Kata benda','Kata sifat','Kata tanya'],ans:0},
-{type:'L2',q:'Kata <span class="chinese-text">工作</span> bisa diartikan...',opts:['Hanya kata benda (pekerjaan)','Hanya kata kerja (bekerja)','Kata kerja (bekerja) DAN kata benda (pekerjaan)','Kata sifat'],ans:2},
-{type:'L2',q:'Pilih pelengkap yang tepat:<br>他是 _____ ，在医院工作。',opts:['学生','老师','医生','朋友'],ans:2},
-{type:'L2',q:'Pilih pelengkap yang tepat:<br>天气很热，我想喝 _____。',opts:['米饭','苹果','水','书'],ans:2},
-{type:'L2',q:'Pilih pelengkap yang tepat:<br>我去 _____ 买东西。',opts:['医院','学校','家','商店'],ans:3},
-{type:'L2',q:'Terjemahan "Kucing saya sangat cantik"...',opts:['我的猫很漂亮。','猫很我漂亮。','我猫的漂亮很。','漂亮我的猫很。'],ans:0},
+{type:'L2',q:'Dalam kalimat:<br><span class="chinese-text">"我在学校学习"</span><span class="pinyin-text">"Wǒ zài xuéxiào xuéxí"</span>Kata <strong>在 (zài)</strong> berfungsi sebagai...',opts:['Kata kerja / Preposisi (berada di)','Kata benda','Kata sifat','Kata tanya'],ans:0},
+{type:'L2',q:'Kata <span class="chinese-text">工作</span><span class="pinyin-text">gōngzuò</span> bisa diartikan...',opts:['Hanya kata benda (pekerjaan)','Hanya kata kerja (bekerja)','Kata kerja (bekerja) DAN kata benda (pekerjaan)','Kata sifat'],ans:2},
+{type:'L2',q:'Pilih pelengkap yang tepat:<br><span class="chinese-text">他是 _____ ，在医院工作。</span><span class="pinyin-text">Tā shì _____, zài yīyuàn gōngzuò.</span>',opts:['学生 (xuésheng)','老师 (lǎoshī)','医生 (yīshēng)','朋友 (péngyou)'],ans:2},
+{type:'L2',q:'Pilih pelengkap yang tepat:<br><span class="chinese-text">天气很热，我想喝 _____。</span><span class="pinyin-text">Tiānqì hěn rè, wǒ xiǎng hē _____.</span>',opts:['米饭 (mǐfàn)','苹果 (píngguǒ)','水 (shuǐ)','书 (shū)'],ans:2},
+{type:'L2',q:'Pilih pelengkap yang tepat:<br><span class="chinese-text">我去 _____ 买东西。</span><span class="pinyin-text">Wǒ qù _____ mǎi dōngxi.</span>',opts:['医院 (yīyuàn)','学校 (xuéxiào)','家 (jiā)','商店 (shāngdiàn)'],ans:3},
+{type:'L2',q:'Terjemahan "Kucing saya sangat cantik"...',opts:['我的猫很漂亮。 (Wǒ de māo hěn piàoliang.)','猫很我漂亮。 (Māo hěn wǒ piàoliang.)','我猫的漂亮很。 (Wǒ māo de piàoliang hěn.)','漂亮我的猫很。 (Piàoliang wǒ de māo hěn.)'],ans:0},
 // Struktur Lanjutan
-{type:'L2',q:'Urutan kata yang benar untuk "Saya mau pergi ke sekolah besok"...',opts:['我明天去学校。','明天我去学校。','我去学校明天。','学校我明天去。'],ans:0},
-{type:'L2',q:'Untuk mengatakan "buku di atas meja"...',opts:['书在桌子上。','桌子书在上。','书桌子在上。','在书桌子上。'],ans:0},
-{type:'L2',q:'Kalimat "Saya punya seekor anjing" yang benar...',opts:['我是一个狗。','我有一个狗。','我狗一个有。','我的狗有一个。'],ans:1},
-{type:'L2',q:'Untuk mengatakan "Dia tidak ada di rumah"...',opts:['她不在家。','她在不家。','她家不在。','不她在家。'],ans:0},
+{type:'L2',q:'Urutan kata yang benar untuk "Saya mau pergi ke sekolah besok"...',opts:['我明天去学校。 (Wǒ míngtiān qù xuéxiào.)','明天我去学校。 (Bentuk kurang tepat dalam konteks opsi ini)','我去学校明天。 (Wǒ qù xuéxiào míngtiān.)','学校我明天去。 (Xuéxiào wǒ míngtiān qù.)'],ans:0},
+{type:'L2',q:'Untuk mengatakan "buku ada di atas meja"...',opts:['书在桌子上。 (Shū zài zhuōzi shàng.)','桌子书在上。 (Zhuōzi shū zài shàng.)','书桌子在上。 (Shū zhuōzi zài shàng.)','在书桌子上。 (Zài shū zhuōzi shàng.)'],ans:0},
+{type:'L2',q:'Kalimat "Saya punya seekor anjing" yang benar...',opts:['我是一个狗。 (Wǒ shì yī gè gǒu.)','我有一只/个狗。 (Wǒ yǒu yī zhī/gè gǒu.)','我狗一个有。 (Wǒ gǒu yī gè yǒu.)','我的狗有一个。 (Wǒ de gǒu yǒu yī gè.)'],ans:1},
+{type:'L2',q:'Untuk mengatakan "Dia tidak ada di rumah"...',opts:['她不在家。 (Tā bù zài jiā.)','她在不家。 (Tā zài bù jiā.)','她家不在。 (Tā jiā bù zài.)','不她在家。 (Bù tā zài jiā.)'],ans:0},
 // Pemahaman Kalimat
-{type:'L2',q:'Arti dari kalimat <span class="chinese-text">今天天气怎么样？</span> adalah...',opts:['Di mana hari ini?','Bagaimana cuaca hari ini?','Kapan hari ini?','Siapa hari ini?'],ans:1},
-{type:'L2',q:'Arti dari kalimat <span class="chinese-text">我没有钱。</span> adalah...',opts:['Saya punya uang.','Saya tidak punya uang.','Saya ingin uang.','Saya banyak uang.'],ans:1},
-{type:'L2',q:'Arti dari kalimat <span class="chinese-text">他在哪儿工作？</span> adalah...',opts:['Dia bekerja apa?','Di mana dia tinggal?','Di mana dia bekerja?','Kapan dia bekerja?'],ans:2},
-{type:'L2',q:'Arti dari kalimat <span class="chinese-text">我们都是学生。</span> adalah...',opts:['Kami adalah guru.','Sebagian kami adalah pelajar.','Kami semua adalah pelajar.','Kami tidak semua pelajar.'],ans:2},
-{type:'L2',q:'Terjemahan "Apel ini berapa harganya?" yang benar...',opts:['这个苹果是什么？','这个苹果多少钱？','这个苹果几个？','这个苹果怎么样？'],ans:1},
-{type:'L2',q:'Pilih kalimat yang tepat untuk "Ibu suka minum teh"...',opts:['妈妈喜欢喝茶。','妈妈茶喝喜欢。','喜欢妈妈茶喝。','妈妈喝喜欢茶。'],ans:0},
-{type:'L2',q:'Arti kalimat <span class="chinese-text">请坐！</span> adalah...',opts:['Silakan minum!','Silakan duduk!','Silakan pergi!','Silakan makan!'],ans:1},
-{type:'L2',q:'Untuk mengatakan "Saya kembali ke rumah", kata kerja yang tepat...',opts:['去','来','回','在'],ans:2},
-{type:'L2',q:'Kata <span class="chinese-text">一点儿</span> artinya...',opts:['Sangat banyak','Terlalu banyak','Sedikit','Cukup'],ans:2},
-{type:'L2',q:'Untuk menanyakan usia seseorang, gunakan kata...',opts:['多少钱','几岁','什么时候','在哪儿'],ans:1},
-{type:'L2',q:'Arti kalimat <span class="chinese-text">明天见！</span> adalah...',opts:['Sampai jumpa sekarang!','Sampai jumpa besok!','Sampai jumpa minggu depan!','Terima kasih sampai jumpa!'],ans:1},
-{type:'L2',q:'Untuk mengatakan "Saya tinggal di Beijing"...',opts:['我去北京住。','我住在北京。','我北京住在。','住北京我在。'],ans:1},
-{type:'L2',q:'Kalimat <span class="chinese-text">你是哪国人？</span> artinya...',opts:['Kamu dari negara mana?','Kamu tinggal di mana?','Kamu bekerja di mana?','Kamu belajar apa?'],ans:0},
-{type:'L2',q:'Kata penghubung untuk "dan" dalam bahasa Mandarin adalah...',opts:['的','也','和','都'],ans:2},
-{type:'L2',q:'Arti <span class="chinese-text">我也是学生。</span> adalah...',opts:['Saya bukan pelajar.','Saya juga pelajar.','Saya seorang pelajar.','Saya dulu pelajar.'],ans:1},
-{type:'L2',q:'Untuk menyatakan "Saya menyukai belajar bahasa Mandarin"...',opts:['我不喜欢学汉语。','我喜欢学汉语。','汉语我学喜欢。','我学汉语喜欢。'],ans:1},
-{type:'L2',q:'Kata yang tepat untuk "di dalam tas": 书包 _____ 有很多书。',opts:['上面','前面','里面','后面'],ans:2},
-{type:'L2',q:'Dialog: A: "你今天去学校吗？" B mengiyakan dengan...',opts:['不，我不去。','对，我今天去学校。','我不知道。','明天我去。'],ans:1},
-{type:'L2',q:'Sapaan formal kepada seseorang yang belum dikenal...',opts:['你好！','喂！','哈哈！','嗯！'],ans:0},
-{type:'L2',q:'Kata Mandarin untuk "uang" adalah...',opts:['东西','衣服','钱','岁'],ans:2},
+{type:'L2',q:'Arti dari kalimat <span class="chinese-text">今天天气怎么样？</span><span class="pinyin-text">Jīntiān tiānqì zěnmeyàng?</span> adalah...',opts:['Di mana hari ini?','Bagaimana cuaca hari ini?','Kapan hari ini?','Siapa hari ini?'],ans:1},
+{type:'L2',q:'Arti dari kalimat <span class="chinese-text">我没有钱。</span><span class="pinyin-text">Wǒ méiyǒu qián.</span> adalah...',opts:['Saya punya uang.','Saya tidak punya uang.','Saya ingin uang.','Saya banyak uang.'],ans:1},
+{type:'L2',q:'Arti dari kalimat <span class="chinese-text">他在哪儿工作？</span><span class="pinyin-text">Tā zài nǎr gōngzuò?</span> adalah...',opts:['Dia bekerja apa?','Di mana dia tinggal?','Di mana dia bekerja?','Kapan dia bekerja?'],ans:2},
+{type:'L2',q:'Arti dari kalimat <span class="chinese-text">我们都是学生。</span><span class="pinyin-text">Wǒmen dōu shì xuésheng.</span> adalah...',opts:['Kami adalah guru.','Sebagian kami adalah pelajar.','Kami semua adalah pelajar.','Kami tidak semua pelajar.'],ans:2},
+{type:'L2',q:'Terjemahan "Apel ini berapa harganya?" yang benar...',opts:['这个苹果是什么？ (Zhège píngguǒ shì shénme?)','这个苹果多少钱？ (Zhège píngguǒ duōshao qián?)','这个苹果几个？ (Zhège píngguǒ jǐ gè?)','这个苹果怎么样？ (Zhège píngguǒ zěnmeyàng?)'],ans:1},
+{type:'L2',q:'Pilih kalimat yang tepat untuk "Ibu suka minum teh"...',opts:['妈妈喜欢喝茶。 (Māma xǐhuan hē chá.)','妈妈茶喝喜欢。 (Māma chá hē xǐhuan.)','喜欢妈妈茶喝。 (Xǐhuan māma chá hē.)','妈妈喝喜欢茶。 (Māma hē xǐhuan chá.)'],ans:0},
+{type:'L2',q:'Arti kalimat <span class="chinese-text">请坐！</span><span class="pinyin-text">Qǐng zuò!</span> adalah...',opts:['Silakan minum!','Silakan duduk!','Silakan pergi!','Silakan makan!'],ans:1},
+{type:'L2',q:'Untuk mengatakan "Saya kembali ke rumah", kata kerja yang tepat...',opts:['去 (qù)','来 (lái)','回 (huí)','在 (zài)'],ans:2},
+{type:'L2',q:'Kata <span class="chinese-text">一点儿</span><span class="pinyin-text">yīdiǎnr</span> artinya...',opts:['Sangat banyak','Terlalu banyak','Sedikit','Cukup'],ans:2},
+{type:'L2',q:'Untuk menanyakan usia anak kecil, gunakan kata...',opts:['多少钱 (duōshao qián)','几岁 (jǐ suì)','什么时候 (shénme shíhou)','在哪儿 (zài nǎr)'],ans:1},
+{type:'L2',q:'Arti kalimat <span class="chinese-text">明天见！</span><span class="pinyin-text">Míngtiān jiàn!</span> adalah...',opts:['Sampai jumpa sekarang!','Sampai jumpa besok!','Sampai jumpa minggu depan!','Terima kasih sampai jumpa!'],ans:1},
+{type:'L2',q:'Untuk mengatakan "Saya tinggal di Beijing"...',opts:['我去北京住。 (Wǒ qù Běijīng zhù.)','我住在北京。 (Wǒ zhù zài Běijīng.)','我北京住在。 (Wǒ Běijīng zhù zài.)','住北京我在。 (Zhù Běijīng wǒ zài.)'],ans:1},
+{type:'L2',q:'Kalimat <span class="chinese-text">你是哪国人？</span><span class="pinyin-text">Nǐ shì nǎ guó rén?</span> artinya...',opts:['Kamu dari negara mana?','Kamu tinggal di mana?','Kamu bekerja di mana?','Kamu belajar apa?'],ans:0},
+{type:'L2',q:'Kata penghubung untuk "dan" dalam bahasa Mandarin adalah...',opts:['的 (de)','也 (yě)','和 (hé)','都 (dōu)'],ans:2},
+{type:'L2',q:'Arti <span class="chinese-text">我也是学生。</span><span class="pinyin-text">Wǒ yě shì xuésheng.</span> adalah...',opts:['Saya bukan pelajar.','Saya juga pelajar.','Saya seorang pelajar.','Saya dulu pelajar.'],ans:1},
+{type:'L2',q:'Untuk menyatakan "Saya menyukai belajar bahasa Mandarin"...',opts:['我不喜欢学汉语。 (Wǒ bù xǐhuan xué Hànyǔ.)','我喜欢学汉语。 (Wǒ xǐhuan xué Hànyǔ.)','汉语我学喜欢。 (Hànyǔ wǒ xué xǐhuan.)','我学汉语喜欢。 (Wǒ xué Hànyǔ xǐhuan.)'],ans:1},
+{type:'L2',q:'Kata yang tepat untuk "di dalam tas":<br><span class="chinese-text">书包 _____ 有很多书。</span><span class="pinyin-text">Shūbāo _____ yǒu hěn duō shū.</span>',opts:['上面 (shàngmiàn)','前面 (qiánmiàn)','里面 (lǐmiàn)','后面 (hòumiàn)'],ans:2},
+{type:'L2',q:'Dialog:<br>A: <span class="chinese-text">"你今天去学校吗？"</span><span class="pinyin-text">"Nǐ jīntiān qù xuéxiào ma?"</span>B mengiyakan dengan...',opts:['不，我不去。 (Bù, wǒ bú qù.)','对，我今天去学校。 (Duì, wǒ jīntiān qù xuéxiào.)','我不知道。 (Wǒ bù zhīdào.)','明天我去。 (Míngtiān wǒ qù.)'],ans:1},
+{type:'L2',q:'Sapaan sopan/umum kepada seseorang yang baru ditemui...',opts:['你好！ (Nǐ hǎo!)','喂！ (Wèi!)','哈哈！ (Hāhā!)','嗯！ (Ng!)'],ans:0},
+{type:'L2',q:'Kata Mandarin untuk "uang" adalah...',opts:['东西 (dōngxi)','衣服 (yīfu)','钱 (qián)','岁 (suì)'],ans:2},
 {type:'L2',q:'Apa arti <span class="chinese-text">岁</span><span class="pinyin-text">suì</span>?',opts:['Uang','Tahun (umur)','Nama','Menit'],ans:1},
-{type:'L2',q:'Untuk mengucapkan harapan sembuh, kata yang tepat...',opts:['谢谢你！','祝你身体健康！','再见！','不客气！'],ans:1},
+{type:'L2',q:'Untuk mengucapkan harapan sehat, kalimat yang tepat...',opts:['谢谢你！ (Xièxie nǐ!)','祝你身体健康！ (Zhù nǐ shēntǐ jiànkāng!)','再见！ (Zàijiàn!)','不客气！ (Bú kèqi!)'],ans:1},
 {type:'L2',q:'Apa arti <span class="chinese-text">汉语</span><span class="pinyin-text">Hànyǔ</span>?',opts:['Bahasa Inggris','Bahasa Indonesia','Bahasa Mandarin','Bahasa Jepang'],ans:2},
-{type:'L2',q:'Apa arti <span class="chinese-text">都</span><span class="pinyin-text">dōu</span>?',opts:['Juga','Semua / Juga','Sangat','Terlalu'],ans:1},
+{type:'L2',q:'Apa arti <span class="chinese-text">都</span><span class="pinyin-text">dōu</span>?',opts:['Juga','Semua','Sangat','Terlalu'],ans:1},
 {type:'L2',q:'Apa arti <span class="chinese-text">和</span><span class="pinyin-text">hé</span>?',opts:['Atau','Dan','Karena','Tetapi'],ans:1},
 {type:'L2',q:'Apa arti <span class="chinese-text">这</span><span class="pinyin-text">zhè</span>?',opts:['Itu','Ini','Sana','Sini'],ans:1},
 {type:'L2',q:'Apa arti <span class="chinese-text">那</span><span class="pinyin-text">nà</span>?',opts:['Ini','Itu','Sini','Di sini'],ans:1},
-{type:'L2',q:'Apa arti kalimat <span class="chinese-text">你回来了！</span>?',opts:['Kamu akan pergi!','Kamu sudah kembali!','Kamu di sini!','Kamu datang sekarang!'],ans:1},
-{type:'L2',q:'Kata Mandarin untuk "beberapa" adalah...',opts:['个','本','些','块'],ans:2},
-{type:'L2',q:'Kalimat tanya yang benar untuk "Apakah ini buku kamu?"...',opts:['这本书是你的吗？','这本书你是吗？','你的书这是吗？','是你的书这吗？'],ans:0},
+{type:'L2',q:'Apa arti kalimat <span class="chinese-text">你回来了！</span><span class="pinyin-text">Nǐ huílái le!</span>?',opts:['Kamu akan pergi!','Kamu sudah kembali!','Kamu di sini!','Kamu datang sekarang!'],ans:1},
+{type:'L2',q:'Kata Mandarin untuk "beberapa" adalah...',opts:['个 (gè)','本 (běn)','些 (xiē)','块 (kuài)'],ans:2},
+{type:'L2',q:'Kalimat tanya yang benar untuk "Apakah ini buku kamu?"...',opts:['这本书是你的吗？ (Zhè běn shū shì nǐ de ma?)','这本书你是吗？ (Zhè běn shū nǐ shì ma?)','你的书这是吗？ (Nǐ de shū zhè shì ma?)','是你的书这吗？ (Shì nǐ de shū zhè ma?)'],ans:0},
 {type:'L2',q:'Apa arti <span class="chinese-text">做</span><span class="pinyin-text">zuò</span>?',opts:['Duduk','Naik kendaraan','Melakukan / Membuat','Pergi'],ans:2},
 {type:'L2',q:'Apa arti <span class="chinese-text">坐</span><span class="pinyin-text">zuò</span>?',opts:['Membuat','Pergi','Duduk / Naik kendaraan','Berdiri'],ans:2},
-{type:'L2',q:'Untuk mengatakan "Saya mau makan nasi"...',opts:['我想吃米饭。','我吃想米饭。','米饭想我吃。','我不吃米饭。'],ans:0},
+{type:'L2',q:'Untuk mengatakan "Saya mau makan nasi"...',opts:['我想吃米饭。 (Wǒ xiǎng chī mǐfàn.)','我吃想米饭。 (Wǒ chī xiǎng mǐfàn.)','米饭想我吃。 (Mǐfàn xiǎng wǒ chī.)','我不吃米饭。 (Wǒ bù chī mǐfàn.)'],ans:0},
 {type:'L2',q:'Apa arti <span class="chinese-text">开</span><span class="pinyin-text">kāi</span>?',opts:['Menutup','Membuka / Mengemudi','Berjalan','Berlari'],ans:1},
 {type:'L2',q:'Apa arti <span class="chinese-text">回</span><span class="pinyin-text">huí</span>?',opts:['Pergi','Datang','Kembali','Tinggal'],ans:2},
-{type:'L2',q:'Kalimat <span class="chinese-text">他叫什么名字？</span> artinya...',opts:['Di mana dia tinggal?','Berapa usianya?','Siapa namanya?','Dari mana asalnya?'],ans:2},
+{type:'L2',q:'Kalimat <span class="chinese-text">他叫什么名字？</span><span class="pinyin-text">Tā jiào shénme míngzi?</span> artinya...',opts:['Di mana dia tinggal?','Berapa usianya?','Siapa namanya?','Dari mana asalnya?'],ans:2},
 
 // ══════════════════════════════════════════
-// LATIHAN 3 — PEMAHAMAN KALIMAT & DIALOG (70)
+// LATIHAN 3 — PEMAHAMAN KALIMAT & DIALOG (DENGAN PINYIN)
 // ══════════════════════════════════════════
-{type:'L3',q:'<strong>Bacalah:</strong><br><span class="chinese-text">我喜欢吃苹果。</span><br><em>Wǒ xǐhuan chī píngguǒ.</em><br><br>Apa yang disukai orang dalam kalimat ini?',opts:['Minum teh','Makan apel','Membeli buku','Melihat TV'],ans:1},
-{type:'L3',q:'<strong>Bacalah:</strong><br><span class="chinese-text">他是老师，他在学校工作。</span><br><br>Orang ini bekerja sebagai apa dan di mana?',opts:['Dokter di rumah sakit','Guru di sekolah','Murid di sekolah','Penjual di toko'],ans:1},
-{type:'L3',q:'<strong>Bacalah:</strong><br><span class="chinese-text">今天天气很好，不下雨。</span><br><br>Bagaimana cuaca hari ini?',opts:['Hujan deras','Sangat panas','Bagus dan tidak hujan','Sangat dingin'],ans:2},
-{type:'L3',q:'<strong>Bacalah:</strong><br><span class="chinese-text">妈妈去商店买衣服。</span><br><br>Apa yang dilakukan ibu?',opts:['Pergi ke sekolah membeli buku','Pergi ke toko membeli baju','Pergi ke rumah sakit','Pergi ke restoran makan'],ans:1},
-{type:'L3',q:'<strong>Bacalah:</strong><br><span class="chinese-text">我没有猫，我有狗。</span><br><br>Hewan peliharaan apa yang dimiliki?',opts:['Kucing','Anjing','Kucing dan Anjing','Tidak punya hewan'],ans:1},
+{type:'L3',q:'<strong>Bacalah:</strong><br><span class="chinese-text">我喜欢吃苹果。</span><span class="pinyin-text">Wǒ xǐhuan chī píngguǒ.</span><br>Apa yang disukai orang dalam kalimat ini?',opts:['Minum teh','Makan apel','Membeli buku','Melihat TV'],ans:1},
+{type:'L3',q:'<strong>Bacalah:</strong><br><span class="chinese-text">他是老师，他在学校工作。</span><span class="pinyin-text">Tā shì lǎoshī, tā zài xuéxiào gōngzuò.</span><br>Orang ini bekerja sebagai apa dan di mana?',opts:['Dokter di rumah sakit','Guru di sekolah','Murid di sekolah','Penjual di toko'],ans:1},
+{type:'L3',q:'<strong>Bacalah:</strong><br><span class="chinese-text">今天天气很好，不下雨。</span><span class="pinyin-text">Jīntiān tiānqì hěn hǎo, bú xiàyǔ.</span><br>Bagaimana cuaca hari ini?',opts:['Hujan deras','Sangat panas','Bagus dan tidak hujan','Sangat dingin'],ans:2},
+{type:'L3',q:'<strong>Bacalah:</strong><br><span class="chinese-text">妈妈去商店买衣服。</span><span class="pinyin-text">Māma qù shāngdiàn mǎi yīfu.</span><br>Apa yang dilakukan ibu?',opts:['Pergi ke sekolah membeli buku','Pergi ke toko membeli baju','Pergi ke rumah sakit','Pergi ke restoran makan'],ans:1},
+{type:'L3',q:'<strong>Bacalah:</strong><br><span class="chinese-text">我没有猫，我有狗。</span><span class="pinyin-text">Wǒ méiyǒu māo, wǒ yǒu gǒu.</span><br>Hewan peliharaan apa yang dimiliki?',opts:['Kucing','Anjing','Kucing dan Anjing','Tidak punya hewan'],ans:1},
 // Dialog 1
-{type:'L3',q:'<strong>Dialog:</strong><br>A: Nǐ hǎo! Nǐ jiào shénme míngzi?<br>B: Wǒ jiào Wáng Míng. Nǐ ne?<br>A: Wǒ jiào Lǐ Huá.<br><br>Siapa nama orang A?',opts:['王明 (Wáng Míng)','李华 (Lǐ Huá)','李明 (Lǐ Míng)','王华 (Wáng Huá)'],ans:1},
-{type:'L3',q:'<strong>Dialog:</strong><br>A: Nǐ hǎo! Nǐ jiào shénme míngzi?<br>B: Wǒ jiào Wáng Míng. Nǐ ne?<br>A: Wǒ jiào Lǐ Huá.<br><br>Siapa nama orang B?',opts:['李华 (Lǐ Huá)','李明 (Lǐ Míng)','王明 (Wáng Míng)','王华 (Wáng Huá)'],ans:2},
-{type:'L3',q:'<strong>Dialog:</strong><br>A: Nǐ shì xuésheng ma?<br>B: Duì, wǒ shì xuésheng. Wǒ zài Běijīng xuéxiào xuéxí.<br><br>Di mana B belajar?',opts:['Di Shanghai','Di rumah','Di sekolah Beijing','Di rumah sakit'],ans:2},
-{type:'L3',q:'<strong>Dialog:</strong><br>A: Wǒ shì lǎoshī, wǒ zài xuéxiào gōngzuò.<br><br>Orang A berstatus sebagai apa?',opts:['Murid','Dokter','Guru','Pedagang'],ans:2},
+{type:'L3',q:'<strong>Dialog:</strong><br>A: <span class="chinese-text">你好！你叫什么名字？</span><span class="pinyin-text">Nǐ hǎo! Nǐ jiào shénme míngzi?</span>B: <span class="chinese-text">我叫王明。你呢？</span><span class="pinyin-text">Wǒ jiào Wáng Míng. Nǐ ne?</span>A: <span class="chinese-text">我叫李华。</span><span class="pinyin-text">Wǒ jiào Lǐ Huá.</span><br>Siapa nama orang A?',opts:['王明 (Wáng Míng)','李华 (Lǐ Huá)','李明 (Lǐ Míng)','王华 (Wáng Huá)'],ans:1},
+{type:'L3',q:'<strong>Dialog:</strong><br>A: <span class="chinese-text">你好！你叫什么名字？</span><span class="pinyin-text">Nǐ hǎo! Nǐ jiào shénme míngzi?</span>B: <span class="chinese-text">我叫王明。你呢？</span><span class="pinyin-text">Wǒ jiào Wáng Míng. Nǐ ne?</span>A: <span class="chinese-text">我叫李华。</span><span class="pinyin-text">Wǒ jiào Lǐ Huá.</span><br>Siapa nama orang B?',opts:['李华 (Lǐ Huá)','李明 (Lǐ Míng)','王明 (Wáng Míng)','王华 (Wáng Huá)'],ans:2},
+{type:'L3',q:'<strong>Dialog:</strong><br>A: <span class="chinese-text">你是学生吗？</span><span class="pinyin-text">Nǐ shì xuésheng ma?</span>B: <span class="chinese-text">对，我是学生。我在北京学校学习。</span><span class="pinyin-text">Duì, wǒ shì xuésheng. Wǒ zài Běijīng xuéxiào xuéxí.</span><br>Di mana B belajar?',opts:['Di Shanghai','Di rumah','Di sekolah Beijing','Di rumah sakit'],ans:2},
+{type:'L3',q:'<strong>Dialog:</strong><br>A: <span class="chinese-text">我是老师，我在学校工作。</span><span class="pinyin-text">Wǒ shì lǎoshī, wǒ zài xuéxiào gōngzuò.</span><br>Orang A berstatus sebagai apa?',opts:['Murid','Dokter','Guru','Pedagang'],ans:2},
 // Dialog 2 (Jual Beli)
-{type:'L3',q:'<strong>Dialog:</strong><br>A: Wǒ xiǎng mǎi píngguǒ, duōshǎo qián?<br>B: Wǔ kuài qián yī gè.<br><br>Orang A ingin membeli apa?',opts:['Teh','Nasi','Apel','Buku'],ans:2},
-{type:'L3',q:'<strong>Dialog:</strong><br>A: Wǒ xiǎng mǎi píngguǒ, duōshǎo qián?<br>B: Wǔ kuài qián yī gè.<br><br>Berapa harga satu buah apel?',opts:['3 yuan','4 yuan','5 yuan','6 yuan'],ans:2},
-{type:'L3',q:'<strong>Dialog:</strong><br>A: Wǒ mǎi liǎng gè. Zhège dà ma?<br>B: Duì, zhège hěn dà, hěn hǎo chī.<br><br>Berapa buah yang dibeli A?',opts:['1 buah','2 buah','3 buah','4 buah'],ans:1},
-{type:'L3',q:'<strong>Dialog:</strong><br>A: Hǎo, xièxie!<br>B: Bú kèqi!<br><br>Apa yang diucapkan B sebagai balasan terima kasih?',opts:['谢谢！','再见！','不客气！','对不起！'],ans:2},
+{type:'L3',q:'<strong>Dialog:</strong><br>A: <span class="chinese-text">我想买苹果，多少钱？</span><span class="pinyin-text">Wǒ xiǎng mǎi píngguǒ, duōshao qián?</span>B: <span class="chinese-text">五块钱一个。</span><span class="pinyin-text">Wǔ kuài qián yī gè.</span><br>Orang A ingin membeli apa?',opts:['Teh','Nasi','Apel','Buku'],ans:2},
+{type:'L3',q:'<strong>Dialog:</strong><br>A: <span class="chinese-text">我想买苹果，多少钱？</span><span class="pinyin-text">Wǒ xiǎng mǎi píngguǒ, duōshao qián?</span>B: <span class="chinese-text">五块钱一个。</span><span class="pinyin-text">Wǔ kuài qián yī gè.</span><br>Berapa harga satu buah apel?',opts:['3 yuan','4 yuan','5 yuan','6 yuan'],ans:2},
+{type:'L3',q:'<strong>Dialog:</strong><br>A: <span class="chinese-text">我买两个。这个大吗？</span><span class="pinyin-text">Wǒ mǎi liǎng gè. Zhège dà ma?</span>B: <span class="chinese-text">对，这个很大，很好吃。</span><span class="pinyin-text">Duì, zhège hěn dà, hěn hǎo chī.</span><br>Berapa buah yang dibeli A?',opts:['1 buah','2 buah','3 buah','4 buah'],ans:1},
+{type:'L3',q:'<strong>Dialog:</strong><br>A: <span class="chinese-text">好，谢谢！</span><span class="pinyin-text">Hǎo, xièxie!</span>B: <span class="chinese-text">不客气！</span><span class="pinyin-text">Bú kèqi!</span><br>Apa yang diucapkan B sebagai balasan terima kasih?',opts:['谢谢！ (Xièxie!)','再见！ (Zàijiàn!)','不客气！ (Bú kèqi!)','对不起！ (Duìbuqǐ!)'],ans:2},
 // Dialog 3 (Sakit)
-{type:'L3',q:'<strong>Dialog:</strong><br>A: Wèi! Nǐ xiànzài zài nǎr?<br>B: Wǒ zài jiā. Nǐ ne?<br>A: Wǒ zài xuéxiào.<br><br>Orang A berada di mana?',opts:['Di rumah','Di toko','Di sekolah','Di rumah sakit'],ans:2},
-{type:'L3',q:'<strong>Dialog:</strong><br>A: Wèi! Nǐ xiànzài zài nǎr?<br>B: Wǒ zài jiā.<br><br>Orang B berada di mana?',opts:['Di sekolah','Di rumah','Di toko','Di rumah sakit'],ans:1},
-{type:'L3',q:'<strong>Dialog:</strong><br>B: Jīntiān wǒ shēntǐ bù hǎo, wǒ yào qù yīyuàn.<br><br>Mengapa B tidak datang ke sekolah?',opts:['Sedang belanja','Sedang belajar','Badannya tidak enak','Tidak ada alasan'],ans:2},
-{type:'L3',q:'<strong>Dialog:</strong><br>B: Duì, xiàwǔ wǒ qù kàn yīshēng. Míngtiān wǒ lái xuéxiào.<br><br>Kapan B akan pergi ke dokter?',opts:['Pagi ini','Siang ini','Sore ini (下午)','Besok pagi'],ans:2},
-{type:'L3',q:'<strong>Dialog:</strong><br>B: Míngtiān wǒ lái xuéxiào.<br><br>Kapan B berencana datang ke sekolah?',opts:['Hari ini','Besok','Minggu depan','Lusa'],ans:1},
+{type:'L3',q:'<strong>Dialog:</strong><br>A: <span class="chinese-text">喂！你现在在哪儿？</span><span class="pinyin-text">Wèi! Nǐ xiànzài zài nǎr?</span>B: <span class="chinese-text">我在家。你呢？</span><span class="pinyin-text">Wǒ zài jiā. Nǐ ne?</span>A: <span class="chinese-text">我在学校。</span><span class="pinyin-text">Wǒ zài xuéxiào.</span><br>Orang A berada di mana?',opts:['Di rumah','Di toko','Di sekolah','Di rumah sakit'],ans:2},
+{type:'L3',q:'<strong>Dialog:</strong><br>A: <span class="chinese-text">喂！你现在在哪儿？</span><span class="pinyin-text">Wèi! Nǐ xiànzài zài nǎr?</span>B: <span class="chinese-text">我在家。</span><span class="pinyin-text">Wǒ zài jiā.</span><br>Orang B berada di mana?',opts:['Di sekolah','Di rumah','Di toko','Di rumah sakit'],ans:1},
+{type:'L3',q:'<strong>Dialog:</strong><br>B: <span class="chinese-text">今天我身体不好，我要去医院。</span><span class="pinyin-text">Jīntiān wǒ shēntǐ bù hǎo, wǒ yào qù yīyuàn.</span><br>Mengapa B tidak datang ke sekolah?',opts:['Sedang belanja','Sedang belajar','Badannya tidak enak','Tidak ada alasan'],ans:2},
+{type:'L3',q:'<strong>Dialog:</strong><br>B: <span class="chinese-text">对，下午我去看医生。明天我来学校。</span><span class="pinyin-text">Duì, xiàwǔ wǒ qù kàn yīshēng. Míngtiān wǒ lái xuéxiào.</span><br>Kapan B akan pergi ke dokter?',opts:['Pagi ini','Siang ini','Sore ini (下午 xiàwǔ)','Besok pagi'],ans:2},
+{type:'L3',q:'<strong>Dialog:</strong><br>B: <span class="chinese-text">明天我来学校。</span><span class="pinyin-text">Míngtiān wǒ lái xuéxiào.</span><br>Kapan B berencana datang ke sekolah?',opts:['Hari ini','Besok','Minggu depan','Lusa'],ans:1},
 // Angka & Waktu
-{type:'L3',q:'<span class="chinese-text">现在是上午九点三十分钟。</span><br><br>Pukul berapa sekarang?',opts:['07:30 pagi','08:30 pagi','09:30 pagi','09:00 pagi'],ans:2},
-{type:'L3',q:'<span class="chinese-text">我有六个朋友，他们都是学生。</span><br><br>Berapa jumlah teman?',opts:['4 teman','5 teman','6 teman','7 teman'],ans:2},
-{type:'L3',q:'<span class="chinese-text">今天是三月十四号。</span><br><br>Tanggal berapa hari ini?',opts:['3 Maret','14 Maret','14 Januari','3 Januari'],ans:1},
-{type:'L3',q:'<span class="chinese-text">我妈妈今年四十八岁。</span><br><br>Berapa usia ibu?',opts:['38 tahun','48 tahun','58 tahun','84 tahun'],ans:1},
-{type:'L3',q:'<span class="chinese-text">这个苹果五块钱，那个八块钱。</span><br><br>Berapa harga apel yang pertama?',opts:['3 yuan','5 yuan','8 yuan','10 yuan'],ans:1},
+{type:'L3',q:'<span class="chinese-text">现在是上午九点三十分钟。</span><span class="pinyin-text">Xiànzài shì shàngwǔ jiǔ diǎn sānshí fēnzhōng.</span><br>Pukul berapa sekarang?',opts:['07:30 pagi','08:30 pagi','09:30 pagi','09:00 pagi'],ans:2},
+{type:'L3',q:'<span class="chinese-text">我有六个朋友，他们都是学生。</span><span class="pinyin-text">Wǒ yǒu liù gè péngyou, tāmen dōu shì xuésheng.</span><br>Berapa jumlah teman?',opts:['4 teman','5 teman','6 teman','7 teman'],ans:2},
+{type:'L3',q:'<span class="chinese-text">今天是三月十四号。</span><span class="pinyin-text">Jīntiān shì sān yuè shísì hào.</span><br>Tanggal berapa hari ini?',opts:['3 Maret','14 Maret','14 Januari','3 Januari'],ans:1},
+{type:'L3',q:'<span class="chinese-text">我妈妈今年四十八岁。</span><span class="pinyin-text">Wǒ māma jīnnián sìshíbā suì.</span><br>Berapa usia ibu?',opts:['38 tahun','48 tahun','58 tahun','84 tahun'],ans:1},
+{type:'L3',q:'<span class="chinese-text">这个苹果五块钱，那个八块钱。</span><span class="pinyin-text">Zhège píngguǒ wǔ kuài qián, nàge bā kuài qián.</span><br>Berapa harga apel yang pertama?',opts:['3 yuan','5 yuan','8 yuan','10 yuan'],ans:1},
 // Benar / Salah
-{type:'L3',q:'<span class="chinese-text">今天是星期六，明天是星期天。</span><br><br>Pernyataan: "Hari ini hari Minggu" — Benar atau Salah?',opts:['对 (Benar)','错 (Salah)'],ans:1},
-{type:'L3',q:'<span class="chinese-text">他每天上午去学校，下午回家睡觉。</span><br><br>Pernyataan: "Dia pergi ke sekolah setiap pagi" — Benar atau Salah?',opts:['对 (Benar)','错 (Salah)'],ans:0},
-{type:'L3',q:'<span class="chinese-text">猫在桌子下面，狗在桌子前面。</span><br><br>Pernyataan: "Anjing ada di bawah meja" — Benar atau Salah?',opts:['对 (Benar)','错 (Salah)'],ans:1},
-{type:'L3',q:'<span class="chinese-text">妈妈喝茶，爸爸喝水。</span><br><br>Pernyataan: "Ibu minum air, ayah minum teh" — Benar atau Salah?',opts:['对 (Benar)','错 (Salah)'],ans:1},
-{type:'L3',q:'<span class="chinese-text">这是一张桌子，桌子上有两本书。</span><br><br>Pernyataan: "Di atas meja ada 2 buku" — Benar atau Salah?',opts:['对 (Benar)','错 (Salah)'],ans:0},
+{type:'L3',q:'<span class="chinese-text">今天是星期六，明天是星期天。</span><span class="pinyin-text">Jīntiān shì xīngqīliù, míngtiān shì xīngqītiān.</span><br>Pernyataan: "Hari ini hari Minggu" — Benar atau Salah?',opts:['对 (Duì - Benar)','错 (Cuò - Salah)'],ans:1},
+{type:'L3',q:'<span class="chinese-text">他每天上午去学校，下午回家睡觉。</span><span class="pinyin-text">Tā měitiān shàngwǔ qù xuéxiào, xiàwǔ huí jiā shuìjiào.</span><br>Pernyataan: "Dia pergi ke sekolah setiap pagi" — Benar atau Salah?',opts:['对 (Duì - Benar)','错 (Cuò - Salah)'],ans:0},
+{type:'L3',q:'<span class="chinese-text">猫在桌子下面，狗在桌子前面。</span><span class="pinyin-text">Māo zài zhuōzi xiàmiàn, gǒu zài zhuōzi qiánmiàn.</span><br>Pernyataan: "Anjing ada di bawah meja" — Benar atau Salah?',opts:['对 (Duì - Benar)','错 (Cuò - Salah)'],ans:1},
+{type:'L3',q:'<span class="chinese-text">妈妈喝茶，爸爸喝水。</span><span class="pinyin-text">Māma hē chá, bàba hē shuǐ.</span><br>Pernyataan: "Ibu minum air, ayah minum teh" — Benar atau Salah?',opts:['对 (Duì - Benar)','错 (Cuò - Salah)'],ans:1},
+{type:'L3',q:'<span class="chinese-text">这是一张桌子，桌子上有两本书。</span><span class="pinyin-text">Zhè shì yī zhāng zhuōzi, zhuōzi shàng yǒu liǎng běn shū.</span><br>Pernyataan: "Di atas meja ada 2 buku" — Benar atau Salah?',opts:['对 (Duì - Benar)','错 (Cuò - Salah)'],ans:0},
 // Pilih Situasi
-{type:'L3',q:'<span class="chinese-text">这是一张桌子，桌子上有两本书。</span><br><br>Situasi yang tepat adalah...',opts:['Meja kosong','Meja dengan 1 buku','Meja dengan 2 buku','Meja dengan 3 buku'],ans:2},
-{type:'L3',q:'<span class="chinese-text">妈妈喝茶，爸爸喝水。</span><br><br>Situasi yang tepat adalah...',opts:['Ibu minum air, ayah minum teh','Keduanya minum teh','Ibu minum teh, ayah minum air','Keduanya minum air'],ans:2},
-{type:'L3',q:'<span class="chinese-text">今天是星期六，明天是星期天。</span><br><br>Situasi yang tepat adalah...',opts:['Hari ini Jumat, besok Sabtu','Hari ini Sabtu, besok Minggu','Hari ini Minggu, besok Senin','Hari ini Kamis'],ans:1},
-{type:'L3',q:'<span class="chinese-text">他每天上午去学校，下午回家睡觉。</span><br><br>Jadwal yang benar adalah...',opts:['Pagi ke RS, sore ke sekolah','Pagi ke sekolah, sore tidur di sana','Pagi ke sekolah, sore pulang dan tidur','Setiap hari tidur di sekolah'],ans:2},
-{type:'L3',q:'<span class="chinese-text">猫在桌子下面，狗在桌子前面。</span><br><br>Posisi yang benar adalah...',opts:['Kucing di depan, anjing di bawah','Kucing di bawah meja, anjing di depan meja','Keduanya di bawah meja','Keduanya di depan meja'],ans:1},
+{type:'L3',q:'<span class="chinese-text">这是一张桌子，桌子上有两本书。</span><span class="pinyin-text">Zhè shì yī zhāng zhuōzi, zhuōzi shàng yǒu liǎng běn shū.</span><br>Situasi yang tepat adalah...',opts:['Meja kosong','Meja dengan 1 buku','Meja dengan 2 buku','Meja dengan 3 buku'],ans:2},
+{type:'L3',q:'<span class="chinese-text">妈妈喝茶，爸爸喝水。</span><span class="pinyin-text">Māma hē chá, bàba hē shuǐ.</span><br>Situasi yang tepat adalah...',opts:['Ibu minum air, ayah minum teh','Keduanya minum teh','Ibu minum teh, ayah minum air','Keduanya minum air'],ans:2},
+{type:'L3',q:'<span class="chinese-text">今天是星期六，明天是星期天。</span><span class="pinyin-text">Jīntiān shì xīngqīliù, míngtiān shì xīngqītiān.</span><br>Situasi yang tepat adalah...',opts:['Hari ini Jumat, besok Sabtu','Hari ini Sabtu, besok Minggu','Hari ini Minggu, besok Senin','Hari ini Kamis'],ans:1},
+{type:'L3',q:'<span class="chinese-text">他每天上午去学校，下午回家睡觉。</span><span class="pinyin-text">Tā měitiān shàngwǔ qù xuéxiào, xiàwǔ huí jiā shuìjiào.</span><br>Jadwal yang benar adalah...',opts:['Pagi ke RS, sore ke sekolah','Pagi ke sekolah, sore tidur di sana','Pagi ke sekolah, sore pulang dan tidur','Setiap hari tidur di sekolah'],ans:2},
+{type:'L3',q:'<span class="chinese-text">猫在桌子下面，狗在桌子前面。</span><span class="pinyin-text">Māo zài zhuōzi xiàmiàn, gǒu zài zhuōzi qiánmiàn.</span><br>Posisi yang benar adalah...',opts:['Kucing di depan, anjing di bawah','Kucing di bawah meja, anjing di depan meja','Keduanya di bawah meja','Keduanya di depan meja'],ans:1},
 // Pemahaman Konteks
-{type:'L3',q:'Kalimat <span class="chinese-text">我是中国人。</span> artinya orang ini berasal dari...',opts:['Jepang','Korea','Indonesia','China/Tiongkok'],ans:3},
-{type:'L3',q:'Jika seseorang berkata <span class="chinese-text">我很高兴认识你！</span>, berarti dia...',opts:['Tidak senang bertemu kamu','Senang berkenalan dengan kamu','Ingin pergi','Sedang marah'],ans:1},
-{type:'L3',q:'Jika seseorang berkata <span class="chinese-text">我不舒服。</span> berarti...',opts:['Dia merasa nyaman','Dia merasa tidak enak badan','Dia lapar','Dia mengantuk'],ans:1},
-{type:'L3',q:'Respons yang tepat untuk <span class="chinese-text">谢谢！</span> adalah...',opts:['对不起！','再见！','不客气！','你好！'],ans:2},
-{type:'L3',q:'Respons yang tepat untuk <span class="chinese-text">对不起！</span> adalah...',opts:['谢谢！','没关系！','再见！','你好！'],ans:1},
-{type:'L3',q:'Ekspresi <span class="chinese-text">喂！</span> biasanya digunakan ketika...',opts:['Bertemu teman','Mengakhiri percakapan','Menjawab telepon','Memesan makanan'],ans:2},
-{type:'L3',q:'Jika seseorang berkata <span class="chinese-text">我想喝水。</span>, berarti dia...',opts:['Ingin makan','Ingin minum air','Ingin tidur','Ingin belajar'],ans:1},
-{type:'L3',q:'<span class="chinese-text">你吃饭了吗？</span> artinya...',opts:['Apakah kamu suka makan?','Kamu makan apa?','Apakah kamu sudah makan?','Kamu mau makan di mana?'],ans:2},
-{type:'L3',q:'Seseorang berkata: "Jīntiān tiānqì tài lěng le!" Situasinya adalah...',opts:['Sangat panas hari ini','Cuacanya bagus','Sangat dingin hari ini','Sedang hujan'],ans:2},
-{type:'L3',q:'Seseorang berkata: "Wǒ yào qù mǎi dōngxi." Orang ini akan pergi ke...',opts:['Sekolah','Rumah sakit','Toko','Rumah'],ans:2},
-{type:'L3',q:'Seseorang berkata: "Wǒ méiyǒu qián." Artinya...',opts:['Dia punya banyak uang','Dia tidak punya uang','Dia ingin uang','Dia kehilangan uang'],ans:1},
-{type:'L3',q:'Seseorang berkata: "Wǒ bù xǐhuan chī cài." Artinya...',opts:['Dia suka makan sayuran','Dia tidak suka makan sayuran','Dia tidak bisa masak','Dia tidak lapar'],ans:1},
-{type:'L3',q:'Situasi: Seseorang baru saja bertemu teman lama. Ungkapan yang tepat...',opts:['再见！','对不起！','很高兴认识你！','喂！'],ans:2},
-{type:'L3',q:'Kalimat <span class="chinese-text">我们明天见！</span> artinya...',opts:['Kita bertemu tadi','Kita sudah bertemu','Kita bertemu besok','Kita tidak bertemu'],ans:2},
-{type:'L3',q:'Pernyataan <span class="chinese-text">她很漂亮。</span> mendeskripsikan...',opts:['Dia sangat pintar','Dia sangat cantik','Dia sangat baik','Dia sangat tinggi'],ans:1},
-{type:'L3',q:'Kalimat <span class="chinese-text">爸爸妈妈都在家。</span> artinya...',opts:['Ayah di rumah, ibu tidak','Ibu di rumah, ayah tidak','Ayah dan ibu keduanya di rumah','Tidak ada yang di rumah'],ans:2},
-{type:'L3',q:'Jika seseorang berkata <span class="chinese-text">我回家了！</span>, artinya...',opts:['Saya akan pergi ke rumah','Saya sudah kembali ke rumah','Saya di rumah sekarang','Saya ingin ke rumah'],ans:1},
-{type:'L3',q:'<span class="chinese-text">你会说汉语吗？</span> artinya...',opts:['Kamu belajar bahasa Mandarin?','Apakah kamu bisa berbicara bahasa Mandarin?','Kamu suka bahasa Mandarin?','Kamu mengajar bahasa Mandarin?'],ans:1},
-{type:'L3',q:'Kalimat <span class="chinese-text">我有两个孩子，一个儿子，一个女儿。</span> artinya...',opts:['Saya punya 2 teman','Saya punya 2 anak, 1 laki 1 perempuan','Saya punya 2 saudara','Saya punya 2 kucing'],ans:1},
-{type:'L3',q:'<span class="chinese-text">他会开车。</span> artinya...',opts:['Dia tidak bisa mengemudi','Dia bisa mengemudi','Dia ingin belajar mengemudi','Dia sedang mengemudi'],ans:1},
-{type:'L3',q:'Kalimat <span class="chinese-text">今天我很高兴。</span> menunjukkan bahwa...',opts:['Dia sedih hari ini','Dia marah hari ini','Dia senang hari ini','Dia kelelahan hari ini'],ans:2},
-{type:'L3',q:'<span class="chinese-text">她不喜欢喝茶，她喜欢喝水。</span> artinya...',opts:['Dia suka teh dan air','Dia tidak suka teh, tapi suka air','Dia tidak suka air, tapi suka teh','Dia tidak suka keduanya'],ans:1},
-{type:'L3',q:'Dialog: A: "Nǐ jiā yǒu jǐ gè rén?" B: "Wǒ jiā yǒu sì gè rén."<br><br>Berapa orang anggota keluarga B?',opts:['2 orang','3 orang','4 orang','5 orang'],ans:2},
-{type:'L3',q:'Kalimat <span class="chinese-text">他每天学习汉语。</span> artinya...',opts:['Dia kadang-kadang belajar Mandarin','Dia belajar Mandarin setiap hari','Dia tidak mau belajar Mandarin','Dia sudah lulus HSK'],ans:1},
-{type:'L3',q:'<span class="chinese-text">我的名字叫李小龙。</span> artinya...',opts:['Nama guru saya Li Xiaolong','Nama saya Li Xiaolong','Nama teman saya Li Xiaolong','Nama anjing saya Li Xiaolong'],ans:1},
-{type:'L3',q:'Dialog: A: "Nǐ chī wǔfàn le ma?" B: "Chī le."<br><br>Apakah B sudah makan siang?',opts:['Belum makan','Sudah makan','Tidak mau makan','Masih makan'],ans:1},
-{type:'L3',q:'Kalimat <span class="chinese-text">外面下雨了，带伞吧。</span> saran yang diberikan adalah...',opts:['Makan dulu','Bawa payung','Pulang ke rumah','Pakai jaket'],ans:1},
-{type:'L3',q:'<span class="chinese-text">他是我的同学，我们都学汉语。</span> artinya...',opts:['Dia guru saya, mengajar Mandarin','Dia teman sekelas, kami sama-sama belajar Mandarin','Dia teman saya, tapi tidak belajar Mandarin','Dia murid saya'],ans:1},
-{type:'L3',q:'Dialog: A: "Xièxie nǐ!" B: "Bú kèqi!"<br><br>Apa arti respons B?',opts:['Maaf!','Sama-sama / Tidak perlu sungkan!','Terima kasih!','Sampai jumpa!'],ans:1},
+{type:'L3',q:'Kalimat <span class="chinese-text">我是中国人。</span><span class="pinyin-text">Wǒ shì Zhōngguórén.</span> artinya orang ini berasal dari...',opts:['Jepang','Korea','Indonesia','China/Tiongkok'],ans:3},
+{type:'L3',q:'Jika seseorang berkata <span class="chinese-text">我很高兴认识你！</span><span class="pinyin-text">Wǒ hěn gāoxìng rènshi nǐ!</span> berarti dia...',opts:['Tidak senang bertemu kamu','Senang berkenalan dengan kamu','Ingin pergi','Sedang marah'],ans:1},
+{type:'L3',q:'Jika seseorang berkata <span class="chinese-text">我不舒服。</span><span class="pinyin-text">Wǒ bù shūfu.</span> berarti...',opts:['Dia merasa nyaman','Dia merasa tidak enak badan','Dia lapar','Dia mengantuk'],ans:1},
+{type:'L3',q:'Respons yang tepat untuk <span class="chinese-text">谢谢！</span><span class="pinyin-text">Xièxie!</span> adalah...',opts:['对不起！ (Duìbuqǐ!)','再见！ (Zàijiàn!)','不客气！ (Bú kèqi!)','你好！ (Nǐ hǎo!)'],ans:2},
+{type:'L3',q:'Respons yang tepat untuk <span class="chinese-text">对不起！</span><span class="pinyin-text">Duìbuqǐ!</span> adalah...',opts:['谢谢！ (Xièxie!)','没关系！ (Méi guānxi!)','再见！ (Zàijiàn!)','你好！ (Nǐ hǎo!)'],ans:1},
+{type:'L3',q:'Ekspresi <span class="chinese-text">喂！</span><span class="pinyin-text">Wèi!</span> biasanya digunakan ketika...',opts:['Bertemu teman','Mengakhiri percakapan','Menjawab telepon','Memesan makanan'],ans:2},
+{type:'L3',q:'Jika seseorang berkata <span class="chinese-text">我想喝水。</span><span class="pinyin-text">Wǒ xiǎng hē shuǐ.</span> berarti dia...',opts:['Ingin makan','Ingin minum air','Ingin tidur','Ingin belajar'],ans:1},
+{type:'L3',q:'<span class="chinese-text">你吃饭了吗？</span><span class="pinyin-text">Nǐ chīfàn le ma?</span> artinya...',opts:['Apakah kamu suka makan?','Kamu makan apa?','Apakah kamu sudah makan?','Kamu mau makan di mana?'],ans:2},
+{type:'L3',q:'Seseorang berkata:<br><span class="chinese-text">今天天气太冷了！</span><span class="pinyin-text">Jīntiān tiānqì tài lěng le!</span>Situasinya adalah...',opts:['Sangat panas hari ini','Cuacanya bagus','Sangat dingin hari ini','Sedang hujan'],ans:2},
+{type:'L3',q:'Seseorang berkata:<br><span class="chinese-text">我要去买东西。</span><span class="pinyin-text">Wǒ yào qù mǎi dōngxi.</span>Orang ini akan pergi ke...',opts:['Sekolah','Rumah sakit','Toko','Rumah'],ans:2},
+{type:'L3',q:'Seseorang berkata:<br><span class="chinese-text">我没有钱。</span><span class="pinyin-text">Wǒ méiyǒu qián.</span>Artinya...',opts:['Dia punya banyak uang','Dia tidak punya uang','Dia ingin uang','Dia kehilangan uang'],ans:1},
+{type:'L3',q:'Seseorang berkata:<br><span class="chinese-text">我不喜欢吃菜。</span><span class="pinyin-text">Wǒ bù xǐhuan chī cài.</span>Artinya...',opts:['Dia suka makan sayuran','Dia tidak suka makan sayuran','Dia tidak bisa masak','Dia tidak lapar'],ans:1},
+{type:'L3',q:'Situasi: Seseorang baru saja berkenalan dengan teman baru. Ungkapan yang tepat...',opts:['再见！ (Zàijiàn!)','对不起！ (Duìbuqǐ!)','很高兴认识你！ (Hěn gāoxìng rènshi nǐ!)','喂！ (Wèi!)'],ans:2},
+{type:'L3',q:'Kalimat <span class="chinese-text">我们明天见！</span><span class="pinyin-text">Wǒmen míngtiān jiàn!</span> artinya...',opts:['Kita bertemu tadi','Kita sudah bertemu','Kita bertemu besok','Kita tidak bertemu'],ans:2},
+{type:'L3',q:'Pernyataan <span class="chinese-text">她很漂亮。</span><span class="pinyin-text">Tā hěn piàoliang.</span> mendeskripsikan...',opts:['Dia sangat pintar','Dia sangat cantik','Dia sangat baik','Dia sangat tinggi'],ans:1},
+{type:'L3',q:'Kalimat <span class="chinese-text">爸爸妈妈都在家。</span><span class="pinyin-text">Bàba māma dōu zài jiā.</span> artinya...',opts:['Ayah di rumah, ibu tidak','Ibu di rumah, ayah tidak','Ayah dan ibu keduanya di rumah','Tidak ada yang di rumah'],ans:2},
+{type:'L3',q:'Jika seseorang berkata <span class="chinese-text">我回家了！</span><span class="pinyin-text">Wǒ huí jiā le!</span> artinya...',opts:['Saya akan pergi ke rumah','Saya sudah kembali ke rumah','Saya di rumah sekarang','Saya ingin ke rumah'],ans:1},
+{type:'L3',q:'<span class="chinese-text">你会说汉语吗？</span><span class="pinyin-text">Nǐ huì shuō Hànyǔ ma?</span> artinya...',opts:['Kamu belajar bahasa Mandarin?','Apakah kamu bisa berbicara bahasa Mandarin?','Kamu suka bahasa Mandarin?','Kamu mengajar bahasa Mandarin?'],ans:1},
+{type:'L3',q:'Kalimat <span class="chinese-text">我有两个孩子，一个儿子，一个女儿。</span><span class="pinyin-text">Wǒ yǒu liǎng gè háizi, yī gè érzi, yī gè nǚ\'ér.</span> artinya...',opts:['Saya punya 2 teman','Saya punya 2 anak, 1 laki-laki 1 perempuan','Saya punya 2 saudara','Saya punya 2 kucing'],ans:1},
+{type:'L3',q:'<span class="chinese-text">他会开车。</span><span class="pinyin-text">Tā huì kāichē.</span> artinya...',opts:['Dia tidak bisa mengemudi','Dia bisa mengemudi','Dia ingin belajar mengemudi','Dia sedang mengemudi'],ans:1},
+{type:'L3',q:'Kalimat <span class="chinese-text">今天我很高兴。</span><span class="pinyin-text">Jīntiān wǒ hěn gāoxìng.</span> menunjukkan bahwa...',opts:['Dia sedih hari ini','Dia marah hari ini','Dia senang hari ini','Dia kelelahan hari ini'],ans:2},
+{type:'L3',q:'<span class="chinese-text">她不喜欢喝茶，她喜欢喝水。</span><span class="pinyin-text">Tā bù xǐhuan hē chá, tā xǐhuan hē shuǐ.</span> artinya...',opts:['Dia suka teh dan air','Dia tidak suka teh, tapi suka air','Dia tidak suka air, tapi suka teh','Dia tidak suka keduanya'],ans:1},
+{type:'L3',q:'<strong>Dialog:</strong><br>A: <span class="chinese-text">你家有几个人？</span><span class="pinyin-text">Nǐ jiā yǒu jǐ gè rén?</span>B: <span class="chinese-text">我家有四个人。</span><span class="pinyin-text">Wǒ jiā yǒu sì gè rén.</span><br>Berapa orang anggota keluarga B?',opts:['2 orang','3 orang','4 orang','5 orang'],ans:2},
+{type:'L3',q:'Kalimat <span class="chinese-text">他每天学习汉语。</span><span class="pinyin-text">Tā měitiān xuéxí Hànyǔ.</span> artinya...',opts:['Dia kadang-kadang belajar Mandarin','Dia belajar Mandarin setiap hari','Dia tidak mau belajar Mandarin','Dia sudah lulus HSK'],ans:1},
+{type:'L3',q:'<span class="chinese-text">我的名字叫李小龙。</span><span class="pinyin-text">Wǒ de míngzi jiào Lǐ Xiǎolóng.</span> artinya...',opts:['Nama guru saya Li Xiaolong','Nama saya Li Xiaolong','Nama teman saya Li Xiaolong','Nama anjing saya Li Xiaolong'],ans:1},
+{type:'L3',q:'<strong>Dialog:</strong><br>A: <span class="chinese-text">你吃午饭了吗？</span><span class="pinyin-text">Nǐ chī wǔfàn le ma?</span>B: <span class="chinese-text">吃了。</span><span class="pinyin-text">Chī le.</span><br>Apakah B sudah makan siang?',opts:['Belum makan','Sudah makan','Tidak mau makan','Masih makan'],ans:1},
+{type:'L3',q:'Kalimat <span class="chinese-text">外面下雨了，带伞吧。</span><span class="pinyin-text">Wàimiàn xiàyǔ le, dài sǎn ba.</span> saran yang diberikan adalah...',opts:['Makan dulu','Bawa payung','Pulang ke rumah','Pakai jaket'],ans:1},
+{type:'L3',q:'<span class="chinese-text">他是我的同学，我们都学汉语。</span><span class="pinyin-text">Tā shì wǒ de tóngxué, wǒmen dōu xué Hànyǔ.</span> artinya...',opts:['Dia guru saya, mengajar Mandarin','Dia teman sekelas, kami sama-sama belajar Mandarin','Dia teman saya, tapi tidak belajar Mandarin','Dia murid saya'],ans:1},
+{type:'L3',q:'<strong>Dialog:</strong><br>A: <span class="chinese-text">谢谢你！</span><span class="pinyin-text">Xièxie nǐ!</span>B: <span class="chinese-text">不客气！</span><span class="pinyin-text">Bú kèqi!</span><br>Apa arti respons B?',opts:['Maaf!','Sama-sama / Tidak perlu sungkan!','Terima kasih!','Sampai jumpa!'],ans:1},
 
 ];
 
@@ -777,7 +777,7 @@ function renderQuestion() {
   q.opts.forEach((opt, i) => {
     const btn = document.createElement('button');
     btn.className = 'option-btn'; btn.id = `opt-${i}`;
-    btn.innerHTML = `<span class="opt-label">${lbls[i]}</span>${opt}`;
+    btn.innerHTML = `<span class="opt-label">${lbls[i]}</span><span>${opt}</span>`;
     btn.onclick = () => selectAnswer(i);
     grid.appendChild(btn);
   });
@@ -905,4 +905,3 @@ function toggleReview() {
 </script>
 </body>
 </html>
-
