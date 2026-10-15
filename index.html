@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HSK 1 — Latihan Soal Interaktif | 250 Bank Soal</title>
+  <meta name="description" content="Latihan soal HSK 1 interaktif dengan 250 bank soal, 50 soal acak per sesi, evaluasi otomatis dan standar kelulusan." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-dark: #0a0a1a;
+      --bg-card: #12122a;
+      --bg-card2: #1a1a35;
+      --accent-red: #e63946;
+      --accent-gold: #ffd60a;
+      --accent-jade: #2ec4b6;
+      --accent-purple: #7b2fff;
+      --accent-pink: #ff6b9d;
+      --text-primary: #f0f0ff;
+      --text-secondary: #9999bb;
+      --text-muted: #5a5a7a;
+      --border: rgba(123, 47, 255, 0.2);
+      --border-glow: rgba(123, 47, 255, 0.5);
+      --correct: #2ec4b6;
+      --wrong: #e63946;
+      --shadow-glow: 0 0 40px rgba(123, 47, 255, 0.3);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .bg-orbs {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
+    }
+    .orb {
+      position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.15;
+      animation: floatOrb 12s ease-in-out infinite alternate;
+    }
+    .orb1 { width: 500px; height: 500px; background: var(--accent-purple); top: -100px; left: -100px; animation-delay: 0s; }
+    .orb2 { width: 400px; height: 400px; background: var(--accent-red); top: 40%; right: -100px; animation-delay: -3s; }
+    .orb3 { width: 350px; height: 350px; background: var(--accent-jade); bottom: -100px; left: 30%; animation-delay: -6s; }
+
+    @keyframes floatOrb {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(30px, 40px) scale(1.1); }
+    }
+
+    .container {
+      position: relative; z-index: 1;
+      max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem;
+    }
+
+    .site-header { text-align: center; padding: 3rem 0 2rem; }
+    .badge {
+      display: inline-flex; align-items: center; gap: .4rem;
+      background: rgba(255, 214, 10, 0.15); border: 1px solid rgba(255, 214, 10, 0.4);
+      color: var(--accent-gold); font-size: .8rem; font-weight: 600;
+      padding: .3rem 1rem; border-radius: 999px; margin-bottom: 1.2rem;
+      letter-spacing: .05em; text-transform: uppercase;
+    }
+    .site-header h1 {
+      font-size: clamp(2.2rem, 6vw, 3.8rem); font-weight: 900; line-height: 1.1;
+      background: linear-gradient(135deg, #fff 0%, var(--accent-jade) 50%, var(--accent-purple) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .chinese-title { font-family: 'Noto Sans SC', sans-serif; font-size: 1.4rem; color: var(--accent-gold); margin: .6rem 0; }
+    .site-header p { color: var(--text-secondary); font-size: 1rem; max-width: 550px; margin: .8rem auto 0; }
+
+    .stats-bar { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+    .stat-pill {
+      display: flex; align-items: center; gap: .5rem;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 999px; padding: .5rem 1.2rem; font-size: .9rem;
+    }
+    .stat-pill .icon { font-size: 1.1rem; }
+    .stat-pill span { font-weight: 600; color: var(--accent-jade); }
+
+    .section-label { font-size: .75rem; text-transform: uppercase; letter-spacing: .1em; color: var(--text-muted); margin-bottom: .8rem; font-weight: 600; }
+
+    #start-screen { animation: fadeIn .4s ease; }
+    .start-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 20px; padding: 2.5rem; box-shadow: var(--shadow-glow);
+    }
+    .start-card h2 { font-size: 1.5rem; margin-bottom: .5rem; }
+    .start-card p { color: var(--text-secondary); margin-bottom: 1.5rem; font-size: .95rem; }
+
+    .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+    .info-box {
+      background: var(--bg-card2); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.2rem; text-align: center;
+    }
+    .info-box .num { font-size: 2rem; font-weight: 800; color: var(--accent-jade); line-height: 1; }
+    .info-box .label { font-size: .8rem; color: var(--text-muted); margin-top: .3rem; }
+
+    .passing-table { width: 100%; border-collapse: collapse; margin-bottom: 2rem; font-size: .9rem; }
+    .passing-table th { background: rgba(123, 47, 255, 0.2); padding: .6rem 1rem; text-align: left; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; color: var(--text-secondary); }
+    .passing-table td { padding: .7rem 1rem; border-bottom: 1px solid var(--border); }
+    .passing-table tr:last-child td { border: none; }
+    .tag-gold { background: rgba(255,214,10,.15); color: var(--accent-gold); padding: .2rem .6rem; border-radius: 6px; font-weight: 600; font-size: .82rem; }
+    .tag-jade { background: rgba(46,196,182,.15); color: var(--accent-jade); padding: .2rem .6rem; border-radius: 6px; font-weight: 600; font-size: .82rem; }
+    .tag-purple { background: rgba(123,47,255,.15); color: #a87fff; padding: .2rem .6rem; border-radius: 6px; font-weight: 600; font-size: .82rem; }
+    .tag-red { background: rgba(230,57,70,.15); color: var(--accent-red); padding: .2rem .6rem; border-radius: 6px; font-weight: 600; font-size: .82rem; }
+
+    .btn-start {
+      width: 100%; padding: 1rem; border-radius: 12px; border: none;
+      background: linear-gradient(135deg, var(--accent-purple), #e63946);
+      color: #fff; font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 700;
+      cursor: pointer; transition: all .25s; letter-spacing: .03em;
+      box-shadow: 0 8px 32px rgba(123,47,255,.4);
+    }
+    .btn-start:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(123,47,255,.6); }
+    .btn-start:active { transform: translateY(0); }
+
+    #quiz-screen { display: none; animation: fadeIn .4s ease; }
+
+    .progress-bar-wrap {
+      background: var(--bg-card2); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1rem 1.5rem; margin-bottom: 1.5rem;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .progress-info { flex: 1; }
+    .progress-info .q-count { font-size: .85rem; color: var(--text-muted); }
+    .progress-info .q-num { font-size: 1.1rem; font-weight: 700; }
+    .progress-track { flex: 3; height: 8px; background: var(--bg-dark); border-radius: 999px; overflow: hidden; }
+    .progress-fill {
+      height: 100%; border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent-jade), var(--accent-purple));
+      transition: width .4s cubic-bezier(.4,0,.2,1);
+    }
+    .progress-pct { font-size: .9rem; font-weight: 700; color: var(--accent-jade); min-width: 40px; text-align: right; }
+
+    .type-badge {
+      display: inline-block; padding: .25rem .8rem; border-radius: 6px; font-size: .75rem;
+      font-weight: 600; text-transform: uppercase; letter-spacing: .05em; margin-bottom: .8rem;
+    }
+    .type-L1 { background: rgba(255,107,157,.15); color: var(--accent-pink); border: 1px solid rgba(255,107,157,.3); }
+    .type-L2 { background: rgba(46,196,182,.15); color: var(--accent-jade); border: 1px solid rgba(46,196,182,.3); }
+    .type-L3 { background: rgba(255,214,10,.15); color: var(--accent-gold); border: 1px solid rgba(255,214,10,.3); }
+
+    .question-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 20px; padding: 2rem 2.5rem; box-shadow: var(--shadow-glow);
+      margin-bottom: 1rem; transition: border-color .3s;
+    }
+    .question-card.answered-correct { border-color: var(--correct); box-shadow: 0 0 30px rgba(46,196,182,.2); }
+    .question-card.answered-wrong { border-color: var(--wrong); box-shadow: 0 0 30px rgba(230,57,70,.2); }
+
+    .question-text { font-size: 1.15rem; font-weight: 500; line-height: 1.6; margin-bottom: 1.5rem; color: var(--text-primary); }
+    .chinese-text { font-family: 'Noto Sans SC', sans-serif; font-size: 1.5rem; color: var(--accent-gold); display: block; margin: .4rem 0; }
+    .pinyin-text { font-size: 1rem; color: var(--accent-jade); display: block; margin-bottom: .3rem; font-style: italic; }
+
+    .options-grid { display: grid; gap: .75rem; grid-template-columns: 1fr 1fr; }
+    .options-grid.single-col { grid-template-columns: 1fr; }
+
+    .option-btn {
+      background: var(--bg-card2); border: 1px solid var(--border);
+      border-radius: 12px; padding: .9rem 1.2rem;
+      color: var(--text-primary); font-family: 'Outfit', sans-serif; font-size: .95rem;
+      cursor: pointer; transition: all .2s; text-align: left;
+      display: flex; align-items: center; gap: .7rem;
+    }
+    .option-btn:hover:not(:disabled) { border-color: var(--border-glow); background: rgba(123,47,255,.1); transform: translateX(4px); }
+    .option-btn:disabled { cursor: default; }
+    .option-btn.correct { background: rgba(46,196,182,.15); border-color: var(--correct); color: var(--correct); font-weight: 600; }
+    .option-btn.wrong { background: rgba(230,57,70,.15); border-color: var(--wrong); color: var(--wrong); }
+    .option-btn .opt-label {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 26px; height: 26px; border-radius: 6px; font-weight: 700; font-size: .8rem; flex-shrink: 0;
+      background: var(--bg-dark); border: 1px solid var(--border);
+    }
+    .option-btn.correct .opt-label { background: var(--correct); border-color: var(--correct); color: #000; }
+    .option-btn.wrong .opt-label { background: var(--wrong); border-color: var(--wrong); color: #fff; }
+
+    .feedback-box { border-radius: 12px; padding: 1rem 1.2rem; margin-top: 1rem; font-size: .9rem; display: none; animation: slideDown .3s ease; }
+    .feedback-box.show { display: flex; align-items: flex-start; gap: .8rem; }
+    .feedback-box.correct-fb { background: rgba(46,196,182,.1); border: 1px solid rgba(46,196,182,.3); color: var(--correct); }
+    .feedback-box.wrong-fb { background: rgba(230,57,70,.1); border: 1px solid rgba(230,57,70,.3); color: #ff8a8a; }
+    .feedback-icon { font-size: 1.3rem; flex-shrink: 0; }
+
+    .nav-row { display: flex; gap: 1rem; margin-top: 1.5rem; }
+    .btn-next {
+      flex: 1; padding: .9rem; border-radius: 12px; border: none;
+      background: linear-gradient(135deg, var(--accent-purple), #5510cc);
+      color: #fff; font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 700;
+      cursor: pointer; transition: all .25s; box-shadow: 0 4px 20px rgba(123,47,255,.4);
+      display: none;
+    }
+    .btn-next:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(123,47,255,.6); }
+    .btn-next.visible { display: block; }
+
+    #result-screen { display: none; animation: fadeIn .5s ease; }
+
+    .result-hero {
+      text-align: center; padding: 2.5rem; background: var(--bg-card);
+      border: 1px solid var(--border); border-radius: 24px;
+      margin-bottom: 1.5rem; box-shadow: var(--shadow-glow);
+    }
+    .result-emoji { font-size: 4rem; display: block; margin-bottom: 1rem; animation: bounceIn .6s ease; }
+    .result-score-big {
+      font-size: 5rem; font-weight: 900; line-height: 1;
+      background: linear-gradient(135deg, var(--accent-jade), var(--accent-purple));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .result-out-of { font-size: 1.2rem; color: var(--text-muted); margin-bottom: .5rem; }
+    .result-pct { font-size: 1.5rem; font-weight: 700; color: var(--accent-gold); margin-bottom: .8rem; }
+    .result-grade { display: inline-block; padding: .5rem 1.5rem; border-radius: 999px; font-size: 1rem; font-weight: 700; margin-bottom: .5rem; }
+    .result-grade.lulus-sempurna { background: linear-gradient(135deg, #ffd60a, #ff9a00); color: #000; }
+    .result-grade.lulus-baik { background: linear-gradient(135deg, var(--accent-jade), #009688); color: #000; }
+    .result-grade.lulus { background: linear-gradient(135deg, var(--accent-purple), #5510cc); color: #fff; }
+    .result-grade.tidak-lulus { background: linear-gradient(135deg, var(--accent-red), #c1121f); color: #fff; }
+    .result-meta { font-size: .9rem; color: var(--text-secondary); }
+
+    .score-breakdown { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+    .score-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; text-align: center; }
+    .score-card .sc-num { font-size: 2.5rem; font-weight: 800; line-height: 1; }
+    .score-card .sc-label { font-size: .8rem; color: var(--text-muted); margin-top: .3rem; }
+    .score-card.sc-correct .sc-num { color: var(--correct); }
+    .score-card.sc-wrong .sc-num { color: var(--wrong); }
+    .score-card.sc-acc .sc-num { color: var(--accent-gold); }
+
+    .review-section { margin-bottom: 2rem; }
+    .review-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: .5rem; }
+    .review-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 1.2rem 1.5rem; margin-bottom: .75rem; }
+    .review-item.rev-correct { border-left: 3px solid var(--correct); }
+    .review-item.rev-wrong { border-left: 3px solid var(--wrong); }
+    .review-item .rev-q { font-size: .95rem; color: var(--text-primary); margin-bottom: .5rem; line-height: 1.5; }
+    .review-item .rev-answers { display: flex; flex-wrap: wrap; gap: .5rem; font-size: .85rem; }
+    .rev-your { padding: .2rem .7rem; border-radius: 6px; font-weight: 600; }
+    .rev-your.correct-ans { background: rgba(46,196,182,.15); color: var(--correct); }
+    .rev-your.wrong-ans { background: rgba(230,57,70,.15); color: var(--wrong); }
+    .rev-correct-ans { padding: .2rem .7rem; border-radius: 6px; background: rgba(46,196,182,.15); color: var(--correct); font-weight: 600; }
+
+    .passing-standard-result { background: var(--bg-card2); border: 1px solid var(--border); border-radius: 14px; padding: 1.2rem 1.5rem; margin-bottom: 1.5rem; }
+    .passing-standard-result h3 { font-size: 1rem; margin-bottom: .8rem; color: var(--text-secondary); }
+    .ps-row { display: flex; align-items: center; gap: 1rem; padding: .5rem 0; border-bottom: 1px solid var(--border); font-size: .88rem; }
+    .ps-row:last-child { border: none; }
+    .ps-row .ps-range { flex: 1; font-weight: 600; }
+    .ps-row .ps-pct { color: var(--text-muted); flex: 1; }
+    .ps-row .ps-label { flex: 2; }
+    .ps-row.current { background: rgba(123,47,255,.1); border-radius: 8px; padding: .5rem .8rem; margin: 0 -.8rem; border-bottom: none; }
+
+    .result-actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem; }
+    .btn-retry {
+      flex: 1; padding: 1rem; border-radius: 12px; border: none;
+      background: linear-gradient(135deg, var(--accent-purple), #e63946);
+      color: #fff; font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 700;
+      cursor: pointer; transition: all .25s; box-shadow: 0 4px 20px rgba(123,47,255,.4);
+    }
+    .btn-retry:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(123,47,255,.6); }
+    .btn-review {
+      flex: 1; padding: 1rem; border-radius: 12px; border: 1px solid var(--border-glow);
+      background: transparent; color: var(--text-primary);
+      font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all .25s;
+    }
+    .btn-review:hover { background: rgba(123,47,255,.1); }
+
+    .timer-wrap {
+      display: flex; align-items: center; gap: .5rem;
+      background: rgba(255,214,10,.1); border: 1px solid rgba(255,214,10,.2);
+      border-radius: 8px; padding: .4rem .8rem; font-size: .9rem; font-weight: 600; color: var(--accent-gold);
+    }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes bounceIn { 0% { transform: scale(.5); opacity: 0; } 70% { transform: scale(1.15); } 100% { transform: scale(1); opacity: 1; } }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-dark); }
+    ::-webkit-scrollbar-thumb { background: var(--accent-purple); border-radius: 3px; }
+
+    @media (max-width: 600px) {
+      .options-grid { grid-template-columns: 1fr; }
+      .question-card { padding: 1.5rem; }
+      .result-score-big { font-size: 3.5rem; }
+      .info-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="bg-orbs">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+</div>
+
+<div class="container">
+  <header class="site-header">
+    <div class="badge">🇨🇳 汉语水平考试</div>
+    <h1>HSK 1 — Latihan Soal</h1>
+    <div class="chinese-title">汉语水平考试 第一级</div>
+    <p>50 soal acak dari bank 250 soal • Mencakup 3 jenis latihan • Evaluasi otomatis</p>
+  </header>
+
+  <div class="stats-bar">
+    <div class="stat-pill"><span class="icon">📚</span><span>250</span> Bank Soal</div>
+    <div class="stat-pill"><span class="icon">📝</span><span>50</span> Soal/Sesi</div>
+    <div class="stat-pill"><span class="icon">🎯</span><span>3</span> Jenis Latihan</div>
+    <div class="stat-pill"><span class="icon">⏱️</span><span>~30</span> Menit</div>
+  </div>
+
+  <!-- START SCREEN -->
+  <div id="start-screen">
+    <div class="start-card">
+      <h2>🚀 Mulai Latihan HSK 1</h2>
+      <p>Setiap sesi menampilkan <strong>50 soal acak</strong> dari bank 250 soal mencakup <strong>Latihan 1</strong> (Kosakata), <strong>Latihan 2</strong> (Lengkapi Kalimat), dan <strong>Latihan 3</strong> (Pemahaman Dialog).</p>
+
+      <div class="info-grid">
+        <div class="info-box"><div class="num">250</div><div class="label">Total Bank Soal</div></div>
+        <div class="info-box"><div class="num">50</div><div class="label">Soal per Sesi</div></div>
+        <div class="info-box"><div class="num">3</div><div class="label">Jenis Latihan</div></div>
+        <div class="info-box"><div class="num">70%</div><div class="label">Skor Min. Lulus</div></div>
+      </div>
+
+      <p class="section-label">📊 Standar Kelulusan</p>
+      <table class="passing-table">
+        <thead><tr><th>Skor (dari 50)</th><th>Persentase</th><th>Keterangan</th></tr></thead>
+        <tbody>
+          <tr><td>46 – 50</td><td>92 – 100%</td><td><span class="tag-gold">🥇 Sangat Siap — Lanjut ke HSK 2!</span></td></tr>
+          <tr><td>40 – 45</td><td>80 – 90%</td><td><span class="tag-jade">🥈 Siap — Sedikit review lagi</span></td></tr>
+          <tr><td>35 – 39</td><td>70 – 78%</td><td><span class="tag-purple">🥉 Cukup — Perlu latihan lebih banyak</span></td></tr>
+          <tr><td>&lt; 35</td><td>&lt; 70%</td><td><span class="tag-red">📖 Belum Lulus — Belajar lebih giat!</span></td></tr>
+        </tbody>
+      </table>
+
+      <button class="btn-start" id="btn-start-quiz" onclick="startQuiz()">🎯 Mulai Latihan Sekarang</button>
+    </div>
+  </div>
+
+  <!-- QUIZ SCREEN -->
+  <div id="quiz-screen">
+    <div class="progress-bar-wrap">
+      <div class="progress-info">
+        <div class="q-count">Soal</div>
+        <div class="q-num" id="q-num-display">1 / 50</div>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill" style="width:2%"></div>
+      </div>
+      <div class="progress-pct" id="progress-pct">2%</div>
+      <div class="timer-wrap" id="timer-wrap">⏱️ <span id="timer-text">00:00</span></div>
+    </div>
+
+    <div class="question-card" id="question-card">
+      <span class="type-badge" id="type-badge">Latihan 1</span>
+      <div class="question-text" id="question-text">Loading...</div>
+      <div class="options-grid" id="options-grid"></div>
+      <div class="feedback-box" id="feedback-box">
+        <span class="feedback-icon" id="feedback-icon"></span>
+        <div id="feedback-text"></div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn-next" id="btn-next" onclick="nextQuestion()">Soal Berikutnya →</button>
+    </div>
+  </div>
+
+  <!-- RESULT SCREEN -->
+  <div id="result-screen">
+    <div class="result-hero">
+      <span class="result-emoji" id="result-emoji">🎉</span>
+      <div class="result-score-big" id="result-score-big">0</div>
+      <div class="result-out-of">dari 50 soal</div>
+      <div class="result-pct" id="result-pct">0%</div>
+      <div class="result-grade" id="result-grade">—</div>
+      <div class="result-meta" id="result-meta"></div>
+    </div>
+
+    <div class="score-breakdown">
+      <div class="score-card sc-correct"><div class="sc-num" id="sc-correct">0</div><div class="sc-label">✅ Benar</div></div>
+      <div class="score-card sc-wrong"><div class="sc-num" id="sc-wrong">0</div><div class="sc-label">❌ Salah</div></div>
+      <div class="score-card sc-acc"><div class="sc-num" id="sc-accuracy">0%</div><div class="sc-label">🎯 Akurasi</div></div>
+    </div>
+
+    <div class="passing-standard-result">
+      <h3>📊 Standar Kelulusan</h3>
+      <div class="ps-row" id="ps-1"><div class="ps-range">46–50</div><div class="ps-pct">92–100%</div><div class="ps-label"><span class="tag-gold">🥇 Sangat Siap</span></div></div>
+      <div class="ps-row" id="ps-2"><div class="ps-range">40–45</div><div class="ps-pct">80–90%</div><div class="ps-label"><span class="tag-jade">🥈 Siap</span></div></div>
+      <div class="ps-row" id="ps-3"><div class="ps-range">35–39</div><div class="ps-pct">70–78%</div><div class="ps-label"><span class="tag-purple">🥉 Cukup</span></div></div>
+      <div class="ps-row" id="ps-4"><div class="ps-range">&lt; 35</div><div class="ps-pct">&lt; 70%</div><div class="ps-label"><span class="tag-red">📖 Belum Lulus</span></div></div>
+    </div>
+
+    <div class="review-section" id="review-section" style="display:none">
+      <div class="review-title">📋 Review Semua Jawaban</div>
+      <div id="review-list"></div>
+    </div>
+
+    <div class="result-actions">
+      <button class="btn-retry" onclick="retryQuiz()">🔄 Coba Lagi (Soal Baru)</button>
+      <button class="btn-review" id="btn-review-toggle" onclick="toggleReview()">📋 Lihat Review</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ════════════════════════════════════════════════════════════
+//  BANK SOAL 250 SOAL — HSK 1
+//  L1 = Kosakata/Terjemahan (90 soal)
+//  L2 = Struktur Kalimat/Grammar (90 soal)
+//  L3 = Pemahaman Kalimat/Dialog (70 soal)
+// ════════════════════════════════════════════════════════════
+const questionBank = [
+
+// ══════════════════════════════════════════
+// LATIHAN 1 — KOSAKATA & TERJEMAHAN (90)
+// ══════════════════════════════════════════
+// Orang & Keluarga
+{type:'L1',q:'Apa arti kata <span class="chinese-text">我</span><span class="pinyin-text">wǒ</span>?',opts:['Saya / Aku','Kamu','Dia','Kami'],ans:0},
+{type:'L1',q:'Apa arti kata <span class="chinese-text">你</span><span class="pinyin-text">nǐ</span>?',opts:['Saya','Kamu','Dia (laki-laki)','Kami'],ans:1},
+{type:'L1',q:'Apa arti kata <span class="chinese-text">他</span><span class="pinyin-text">tā</span>?',opts:['Dia (perempuan)','Kamu','Dia (laki-laki)','Saya'],ans:2},
+{type:'L1',q:'Apa arti kata <span class="chinese-text">她</span><span class="pinyin-text">tā</span>?',opts:['Dia (laki-laki)','Kami','Kamu','Dia (perempuan)'],ans:3},
+{type:'L1',q:'Apa arti kata <span class="chinese-text">我们</span><span class="pinyin-text">wǒmen</span>?',opts:['Saya','Kamu semua','Kami / Kita','Mereka'],ans:2},
+{type:'L1',q:'Kata Mandarin untuk "Ayah" adalah...',opts:['妈妈','儿子','爸爸','女儿'],ans:2},
+{type:'L1',q:'Kata Mandarin untuk "Ibu" adalah...',opts:['爸爸','妈妈','女儿','儿子'],ans:1},
+{type:'L1',q:'Apa arti <span class="chinese-text">儿子</span><span class="pinyin-text">érzi</span>?',opts:['Anak perempuan','Teman','Anak laki-laki','Saudara'],ans:2},
+{type:'L1',q:'Apa arti <span class="chinese-text">女儿</span><span class="pinyin-text">nǚér</span>?',opts:['Ibu','Anak perempuan','Anak laki-laki','Kakak'],ans:1},
+{type:'L1',q:'Apa arti <span class="chinese-text">朋友</span><span class="pinyin-text">péngyou</span>?',opts:['Musuh','Teman sekelas','Guru','Teman'],ans:3},
+{type:'L1',q:'Apa arti <span class="chinese-text">同学</span><span class="pinyin-text">tóngxué</span>?',opts:['Teman biasa','Teman sekelas','Teman kerja','Teman dekat'],ans:1},
+// Profesi
+{type:'L1',q:'Apa arti <span class="chinese-text">老师</span><span class="pinyin-text">lǎoshī</span>?',opts:['Dokter','Murid','Guru','Tuan'],ans:2},
+{type:'L1',q:'Apa arti <span class="chinese-text">学生</span><span class="pinyin-text">xuésheng</span>?',opts:['Guru','Murid / Pelajar','Dokter','Pekerja'],ans:1},
+{type:'L1',q:'Apa arti <span class="chinese-text">医生</span><span class="pinyin-text">yīshēng</span>?',opts:['Guru','Murid','Dokter','Polisi'],ans:2},
+{type:'L1',q:'Kata Mandarin untuk "Dokter" adalah...',opts:['老师','学生','医生','先生'],ans:2},
+// Angka
+{type:'L1',q:'Apa arti <span class="chinese-text">一</span><span class="pinyin-text">yī</span>?',opts:['Dua','Satu','Tiga','Empat'],ans:1},
+{type:'L1',q:'Angka <strong>5</strong> dalam Mandarin adalah...',opts:['四','六','五','七'],ans:2},
+{type:'L1',q:'Apa arti <span class="chinese-text">十</span><span class="pinyin-text">shí</span>?',opts:['Tujuh','Delapan','Sembilan','Sepuluh'],ans:3},
+{type:'L1',q:'Angka <strong>8</strong> dalam Mandarin adalah...',opts:['六','七','八','九'],ans:2},
+{type:'L1',q:'Apa arti <span class="chinese-text">三</span><span class="pinyin-text">sān</span>?',opts:['Dua','Tiga','Empat','Lima'],ans:1},
+{type:'L1',q:'Pinyin dari angka <strong>6 (六)</strong> adalah...',opts:['qī','liù','bā','jiǔ'],ans:1},
+{type:'L1',q:'Apa arti <span class="chinese-text">九</span><span class="pinyin-text">jiǔ</span>?',opts:['Tujuh','Delapan','Sembilan','Sepuluh'],ans:2},
+{type:'L1',q:'Angka <strong>4</strong> dalam Mandarin adalah...',opts:['三','四','五','六'],ans:1},
+{type:'L1',q:'Apa arti <span class="chinese-text">二</span><span class="pinyin-text">èr</span>?',opts:['Satu','Dua','Tiga','Empat'],ans:1},
+{type:'L1',q:'Angka <strong>7</strong> dalam Mandarin adalah...',opts:['五','六','七','八'],ans:2},
+// Waktu
+{type:'L1',q:'Apa arti <span class="chinese-text">今天</span><span class="pinyin-text">jīntiān</span>?',opts:['Kemarin','Besok','Hari ini','Minggu ini'],ans:2},
+{type:'L1',q:'Apa arti <span class="chinese-text">明天</span><span class="pinyin-text">míngtiān</span>?',opts:['Hari ini','Kemarin','Besok','Lusa'],ans:2},
+{type:'L1',q:'Apa arti <span class="chinese-text">昨天</span><span class="pinyin-text">zuótiān</span>?',opts:['Besok','Hari ini','Kemarin','Minggu lalu'],ans:2},
+{type:'L1',q:'Kata Mandarin untuk "Pagi hari (sebelum siang)" adalah...',opts:['下午','中午','上午','晚上'],ans:2},
+{type:'L1',q:'Apa arti <span class="chinese-text">下午</span><span class="pinyin-text">xiàwǔ</span>?',opts:['Pagi','Tengah hari','Sore hari','Malam'],ans:2},
+{type:'L1',q:'Apa arti <span class="chinese-text">现在</span><span class="pinyin-text">xiànzài</span>?',opts:['Nanti','Sekarang','Tadi','Segera'],ans:1},
+{type:'L1',q:'Apa arti <span class="chinese-text">星期</span><span class="pinyin-text">xīngqī</span>?',opts:['Bulan','Tahun','Tanggal','Minggu (hari dalam seminggu)'],ans:3},
+{type:'L1',q:'<span class="chinese-text">点</span><span class="pinyin-text">diǎn</span> digunakan untuk...',opts:['Menyebutkan menit','Menyebutkan jam/pukul','Menyebutkan tanggal','Menyebutkan tahun'],ans:1},
+{type:'L1',q:'Apa arti <span class="chinese-text">中午</span><span class="pinyin-text">zhōngwǔ</span>?',opts:['Pagi','Tengah hari','Sore','Malam'],ans:1},
+{type:'L1',q:'Apa arti <span class="chinese-text">分钟</span><span class="pinyin-text">fēnzhōng</span>?',opts:['Jam','Menit','Detik','Hari'],ans:1},
+// Cuaca
+{type:'L1',q:'Apa arti <span class="chinese-text">天气</span><span class="pinyin-text">tiānqì</span>?',opts:['Musim','Cuaca','Langit','Awan'],ans:1},
+{type:'L1',q:'Apa arti <span class="chinese-text">热</span><span class="pinyin-text">rè</span>?',opts:['Dingin','Sejuk','Panas','Hujan'],ans:2},
+{type:'L1',q:'Apa arti <span class="chinese-text">冷</span><span class="pinyin-text">lěng</span>?',opts:['Panas','Dingin','Hujan','Angin'],ans:1},
+{type:'L1',q:'Kata Mandarin untuk "Hujan" adalah...',opts:['天气','热','冷','下雨'],ans:3},
+// Tempat
+{type:'L1',q:'Apa arti <span class="chinese-text">学校</span><span class="pinyin-text">xuéxiào</span>?',opts:['Rumah sakit','Toko','Sekolah','Restoran'],ans:2},
+{type:'L1',q:'Apa arti <span class="chinese-text">医院</span><span class="pinyin-text">yīyuàn</span>?',opts:['Sekolah','Rumah sakit','Toko','Rumah'],ans:1},
+{type:'L1',q:'Apa arti <span class="chinese-text">商店</span><span class="pinyin-text">shāngdiàn</span>?',opts:['Restoran','Rumah sakit','Toko','Sekolah'],ans:2},
+{type:'L1',q:'Apa arti <span class="chinese-text">饭店</span><span class="pinyin-text">fàndiàn</span>?',opts:['Toko','Restoran / Hotel','Rumah','Sekolah'],ans:1},
+{type:'L1',q:'Kata Mandarin untuk "Rumah/Keluarga" adalah...',opts:['学校','医院','家','商店'],ans:2},
+{type:'L1',q:'<span class="chinese-text">北京</span> adalah nama kota...',opts:['Shanghai','Guangzhou','Beijing','Chengdu'],ans:2},
+{type:'L1',q:'Apa arti <span class="chinese-text">中国</span><span class="pinyin-text">Zhōngguó</span>?',opts:['Jepang','Korea','China / Tiongkok','Vietnam'],ans:2},
+// Arah & Posisi
+{type:'L1',q:'Apa arti <span class="chinese-text">上</span><span class="pinyin-text">shàng</span>?',opts:['Bawah','Atas / Naik','Depan','Belakang'],ans:1},
+{type:'L1',q:'Apa arti <span class="chinese-text">下</span><span class="pinyin-text">xià</span>?',opts:['Atas','Bawah / Turun','Kiri','Kanan'],ans:1},
+{type:'L1',q:'Apa arti <span class="chinese-text">前面</span><span class="pinyin-text">qiánmiàn</span>?',opts:['Di belakang','Di samping','Di dalam','Di depan'],ans:3},
+{type:'L1',q:'Apa arti <span class="chinese-text">后面</span><span class="pinyin-text">hòumiàn</span>?',opts:['Di depan','Di belakang','Di dalam','Di atas'],ans:1},
+{type:'L1',q:'Apa arti <span class="chinese-text">里</span><span class="pinyin-text">lǐ</span>?',opts:['Di luar','Di atas','Di dalam','Di bawah'],ans:2},
+// Makanan & Minuman
+{type:'L1',q:'Apa arti <span class="chinese-text">米饭</span><span class="pinyin-text">mǐfàn</span>?',opts:['Sayuran','Nasi','Buah','Air'],ans:1},
+{type:'L1',q:'Apa arti <span class="chinese-text">苹果</span><span class="pinyin-text">píngguǒ</span>?',opts:['Pisang','Jeruk','Apel','Anggur'],ans:2},
+{type:'L1',q:'Apa arti <span class="chinese-text">水</span><span class="pinyin-text">shuǐ</span>?',opts:['Teh','Kopi','Air','Jus'],ans:2},
+{type:'L1',q:'Apa arti <span class="chinese-text">茶</span><span class="pinyin-text">chá</span>?',opts:['Air','Susu','Kopi','Teh'],ans:3},
+{type:'L1',q:'Kata Mandarin untuk "Buah-buahan" adalah...',opts:['菜','苹果','水果','米饭'],ans:2},
+{type:'L1',q:'Apa arti <span class="chinese-text">菜</span><span class="pinyin-text">cài</span>?',opts:['Nasi','Sayuran / Masakan','Buah','Daging'],ans:1},
+// Hewan
+{type:'L1',q:'Apa arti <span class="chinese-text">猫</span><span class="pinyin-text">māo</span>?',opts:['Anjing','Burung','Kucing','Ikan'],ans:2},
+{type:'L1',q:'Apa arti <span class="chinese-text">狗</span><span class="pinyin-text">gǒu</span>?',opts:['Kucing','Anjing','Kuda','Sapi'],ans:1},
+// Benda
+{type:'L1',q:'Apa arti <span class="chinese-text">书</span><span class="pinyin-text">shū</span>?',opts:['Pensil','Kertas','Buku','Tas'],ans:2},
+{type:'L1',q:'Apa arti <span class="chinese-text">椅子</span><span class="pinyin-text">yǐzi</span>?',opts:['Meja','Kursi','Lemari','Sofa'],ans:1},
+{type:'L1',q:'Apa arti <span class="chinese-text">桌子</span><span class="pinyin-text">zhuōzi</span>?',opts:['Kursi','Meja','Lemari','Pintu'],ans:1},
+{type:'L1',q:'Apa arti <span class="chinese-text">电脑</span><span class="pinyin-text">diànnǎo</span>?',opts:['Televisi','Telepon','Komputer','Radio'],ans:2},
+{type:'L1',q:'Apa arti <span class="chinese-text">电视</span><span class="pinyin-text">diànshì</span>?',opts:['Komputer','Televisi','Telepon','Kamera'],ans:1},
+{type:'L1',q:'Apa arti <span class="chinese-text">杯子</span><span class="pinyin-text">bēizi</span>?',opts:['Piring','Sendok','Cangkir / Gelas','Mangkuk'],ans:2},
+{type:'L1',q:'Kata Mandarin untuk "Pakaian/Baju" adalah...',opts:['东西','衣服','书','杯子'],ans:1},
+{type:'L1',q:'Apa arti <span class="chinese-text">电影</span><span class="pinyin-text">diànyǐng</span>?',opts:['TV','Radio','Film','Musik'],ans:2},
+// Transportasi
+{type:'L1',q:'Apa arti <span class="chinese-text">飞机</span><span class="pinyin-text">fēijī</span>?',opts:['Kereta','Kapal','Pesawat terbang','Mobil'],ans:2},
+{type:'L1',q:'Apa arti <span class="chinese-text">出租车</span><span class="pinyin-text">chūzūchē</span>?',opts:['Bus','Taksi','Kereta api','Sepeda'],ans:1},
+// Kata Kerja
+{type:'L1',q:'Apa arti <span class="chinese-text">吃</span><span class="pinyin-text">chī</span>?',opts:['Minum','Tidur','Makan','Beli'],ans:2},
+{type:'L1',q:'Apa arti <span class="chinese-text">喝</span><span class="pinyin-text">hē</span>?',opts:['Makan','Minum','Tidur','Beli'],ans:1},
+{type:'L1',q:'Apa arti <span class="chinese-text">买</span><span class="pinyin-text">mǎi</span>?',opts:['Menjual','Membeli','Mencari','Memiliki'],ans:1},
+{type:'L1',q:'Apa arti <span class="chinese-text">去</span><span class="pinyin-text">qù</span>?',opts:['Datang','Kembali','Pergi','Tinggal'],ans:2},
+{type:'L1',q:'Apa arti <span class="chinese-text">来</span><span class="pinyin-text">lái</span>?',opts:['Pergi','Datang','Kembali','Keluar'],ans:1},
+{type:'L1',q:'Apa arti <span class="chinese-text">学习</span><span class="pinyin-text">xuéxí</span>?',opts:['Mengajar','Belajar','Membaca','Menulis'],ans:1},
+{type:'L1',q:'Apa arti <span class="chinese-text">睡觉</span><span class="pinyin-text">shuìjiào</span>?',opts:['Makan','Minum','Tidur','Bermain'],ans:2},
+{type:'L1',q:'Apa arti <span class="chinese-text">喜欢</span><span class="pinyin-text">xǐhuan</span>?',opts:['Membenci','Menyukai','Menginginkan','Membutuhkan'],ans:1},
+{type:'L1',q:'Apa arti <span class="chinese-text">看</span><span class="pinyin-text">kàn</span>?',opts:['Mendengar','Berbicara','Melihat / Menonton','Membaca'],ans:2},
+{type:'L1',q:'Apa arti <span class="chinese-text">听</span><span class="pinyin-text">tīng</span>?',opts:['Berbicara','Melihat','Mendengarkan','Membaca'],ans:2},
+{type:'L1',q:'Apa arti <span class="chinese-text">说</span><span class="pinyin-text">shuō</span>?',opts:['Mendengar','Berbicara','Membaca','Menulis'],ans:1},
+{type:'L1',q:'Apa arti <span class="chinese-text">认识</span><span class="pinyin-text">rènshi</span>?',opts:['Melupakan','Mengenal','Bertemu','Memanggil'],ans:1},
+{type:'L1',q:'Apa arti <span class="chinese-text">工作</span><span class="pinyin-text">gōngzuò</span>?',opts:['Belajar','Bekerja / Pekerjaan','Bermain','Istirahat'],ans:1},
+// Kata Sifat
+{type:'L1',q:'Apa arti <span class="chinese-text">好</span><span class="pinyin-text">hǎo</span>?',opts:['Buruk','Baik / Bagus','Besar','Kecil'],ans:1},
+{type:'L1',q:'Apa arti <span class="chinese-text">大</span><span class="pinyin-text">dà</span>?',opts:['Kecil','Panjang','Besar','Berat'],ans:2},
+{type:'L1',q:'Apa arti <span class="chinese-text">小</span><span class="pinyin-text">xiǎo</span>?',opts:['Besar','Kecil','Banyak','Sedikit'],ans:1},
+{type:'L1',q:'Apa arti <span class="chinese-text">漂亮</span><span class="pinyin-text">piàoliang</span>?',opts:['Jelek','Cantik / Indah','Pintar','Baik'],ans:1},
+{type:'L1',q:'Apa arti <span class="chinese-text">高兴</span><span class="pinyin-text">gāoxìng</span>?',opts:['Sedih','Marah','Senang / Gembira','Takut'],ans:2},
+// Kata Tanya
+{type:'L1',q:'<span class="chinese-text">什么</span><span class="pinyin-text">shénme</span> artinya...',opts:['Siapa','Apa','Di mana','Berapa'],ans:1},
+{type:'L1',q:'<span class="chinese-text">谁</span><span class="pinyin-text">shéi</span> artinya...',opts:['Apa','Berapa','Siapa','Di mana'],ans:2},
+{type:'L1',q:'<span class="chinese-text">哪儿</span><span class="pinyin-text">nǎr</span> artinya...',opts:['Siapa','Kapan','Apa','Di mana'],ans:3},
+{type:'L1',q:'<span class="chinese-text">多少</span><span class="pinyin-text">duōshǎo</span> digunakan untuk...',opts:['Menanyakan siapa','Menanyakan jumlah/harga','Menanyakan waktu','Menanyakan tempat'],ans:1},
+// Ungkapan
+{type:'L1',q:'Apa arti <span class="chinese-text">谢谢</span><span class="pinyin-text">xièxie</span>?',opts:['Maaf','Sama-sama','Terima kasih','Permisi'],ans:2},
+{type:'L1',q:'Apa arti <span class="chinese-text">对不起</span><span class="pinyin-text">duìbuqǐ</span>?',opts:['Terima kasih','Maaf','Permisi','Sama-sama'],ans:1},
+{type:'L1',q:'Apa arti <span class="chinese-text">再见</span><span class="pinyin-text">zàijiàn</span>?',opts:['Halo','Sampai jumpa','Terima kasih','Maaf'],ans:1},
+{type:'L1',q:'Apa arti <span class="chinese-text">不客气</span><span class="pinyin-text">bú kèqi</span>?',opts:['Maaf','Terima kasih','Sama-sama / Tidak perlu sungkan','Selamat tinggal'],ans:2},
+{type:'L1',q:'<span class="chinese-text">很</span><span class="pinyin-text">hěn</span> artinya...',opts:['Terlalu','Sangat','Agak','Tidak'],ans:1},
+{type:'L1',q:'<span class="chinese-text">太</span><span class="pinyin-text">tài</span> artinya...',opts:['Sangat','Agak','Terlalu','Sedikit'],ans:2},
+{type:'L1',q:'<span class="chinese-text">不</span><span class="pinyin-text">bù</span> artinya...',opts:['Ya','Mungkin','Tidak / Bukan','Juga'],ans:2},
+{type:'L1',q:'Apa arti <span class="chinese-text">没有</span><span class="pinyin-text">méiyǒu</span>?',opts:['Ada / Punya','Tidak ada / Tidak punya','Sangat ada','Banyak'],ans:1},
+{type:'L1',q:'Apa arti <span class="chinese-text">请</span><span class="pinyin-text">qǐng</span>?',opts:['Terima kasih','Maaf','Tolong / Silakan','Selamat tinggal'],ans:2},
+{type:'L1',q:'Apa arti <span class="chinese-text">名字</span><span class="pinyin-text">míngzi</span>?',opts:['Alamat','Nomor telepon','Nama','Umur'],ans:2},
+
+// ══════════════════════════════════════════
+// LATIHAN 2 — STRUKTUR KALIMAT & GRAMMAR (90)
+// ══════════════════════════════════════════
+{type:'L2',q:'Pilih kata yang tepat:<br>我的 _____ 叫李明。<br><em>(Nama saya Li Ming.)</em>',opts:['岁','名字','学生','认识'],ans:1},
+{type:'L2',q:'Pilih kata yang tepat:<br>我 _____ 李明，今年十八岁。<br><em>(Nama saya Li Ming, tahun ini 18 tahun.)</em>',opts:['是','叫','有','在'],ans:1},
+{type:'L2',q:'Pilih kata yang tepat:<br>很高兴 _____ 你！<br><em>(Senang berkenalan denganmu!)</em>',opts:['知道','看见','认识','喜欢'],ans:2},
+{type:'L2',q:'Pilih kata yang tepat:<br>我是 _____，我在学校学习。<br><em>(Saya adalah pelajar.)</em>',opts:['老师','医生','学生','先生'],ans:2},
+{type:'L2',q:'Pilih kata yang tepat:<br>我喜欢学 _____，汉字很有意思。',opts:['英语','汉语','数学','音乐'],ans:1},
+{type:'L2',q:'Pilih kata yang tepat:<br>我每天早上 _____ 茶。<br><em>(Saya minum teh setiap pagi.)</em>',opts:['吃','喝','买','看'],ans:1},
+{type:'L2',q:'Pilih kata yang tepat:<br>他不 _____ 米饭，他喜欢吃苹果。',opts:['喝','买','吃','做'],ans:2},
+{type:'L2',q:'Pilih kata yang tepat:<br>妈妈去商店 _____ 东西。',opts:['看','卖','买','拿'],ans:2},
+{type:'L2',q:'Pilih kata yang tepat:<br>晚上我喜欢 _____ 电视。',opts:['听','读','看','写'],ans:2},
+{type:'L2',q:'Pilih kata yang tepat:<br>我很累，想 _____ 了。',opts:['吃饭','工作','学习','睡觉'],ans:3},
+// Kata Tanya
+{type:'L2',q:'Pilih kata tanya yang tepat:<br>你叫 _____ 名字？',opts:['谁','哪儿','什么','几'],ans:2},
+{type:'L2',q:'Pilih kata tanya yang tepat:<br>这本书是 _____ 的？',opts:['什么','谁','哪儿','多少'],ans:1},
+{type:'L2',q:'Pilih kata tanya yang tepat:<br>你家在 _____？',opts:['什么','谁','几','哪儿'],ans:3},
+{type:'L2',q:'Pilih kata tanya yang tepat:<br>现在 _____ 点了？',opts:['多少','什么','几','哪儿'],ans:2},
+{type:'L2',q:'Pilih kata tanya yang tepat:<br>这个苹果 _____ 钱？',opts:['几','多少','什么','谁'],ans:1},
+{type:'L2',q:'Pilih kata tanya yang tepat:<br>你今天身体 _____？',opts:['怎么','什么','多少','怎么样'],ans:3},
+{type:'L2',q:'Pilih partikel yang tepat:<br>你喜欢喝茶 _____？',opts:['呢','吗','的','了'],ans:1},
+// Lokasi & Posisi
+{type:'L2',q:'Pilih kata yang tepat:<br>书 _____ 桌子上。<br><em>(Buku ada di atas meja.)</em>',opts:['去','来','在','是'],ans:2},
+{type:'L2',q:'Pilih kata posisi yang tepat:<br>猫在椅子 _____。<br><em>(Kucing ada di bawah kursi.)</em>',opts:['上面','里面','后面','下面'],ans:3},
+{type:'L2',q:'Pilih kata yang tepat:<br>学校 _____ 有一个商店。',opts:['里面','前面','后面','上面'],ans:1},
+{type:'L2',q:'Pilih kata yang tepat:<br>_____ 几点了？—— 八点了。',opts:['今天','明天','现在','昨天'],ans:2},
+{type:'L2',q:'Pilih kata yang tepat:<br>_____ 天气很好，我们去公园吧。',opts:['明天','现在','昨天','今天'],ans:3},
+// Kata Keterangan
+{type:'L2',q:'Pilih kata yang tepat:<br>这个苹果 _____ 甜了，我不喜欢。',opts:['很','都','太','一点儿'],ans:2},
+{type:'L2',q:'Pilih kata yang tepat:<br>我的书包 _____ 重，你帮我吧。',opts:['太','都','一点儿','很'],ans:3},
+{type:'L2',q:'Pilih kata yang tepat:<br>妈妈和爸爸 _____ 喜欢喝茶。',opts:['很','太','一点儿','都'],ans:3},
+{type:'L2',q:'Pilih kata yang tepat:<br>请给我 _____ 水，谢谢。',opts:['很多','太多','一点儿','都'],ans:2},
+// Kalimat Benar/Salah
+{type:'L2',q:'Kalimat manakah yang BENAR?',opts:['我是去学校。','我去学校。','我去是学校。','学校我去。'],ans:1},
+{type:'L2',q:'Terjemahan "Saya tidak minum teh" yang benar adalah...',opts:['我喝不茶。','我不喝茶。','我茶不喝。','不我喝茶。'],ans:1},
+{type:'L2',q:'Terjemahan "Apakah kamu seorang pelajar?" yang benar adalah...',opts:['你是学生吗？','你学生是吗？','你吗是学生？','是你学生吗？'],ans:0},
+{type:'L2',q:'Kata yang tepat: 她很 _____，大家都喜欢她。',opts:['大','好','漂亮','高兴'],ans:2},
+{type:'L2',q:'Pilih jawaban yang benar untuk: 你好吗？',opts:['我好，谢谢！','是，我好。','谢谢，你好？','我是好。'],ans:0},
+// Dialog
+{type:'L2',q:'Dialog: A: "你叫什么名字？" B: "_____"',opts:['我在北京。','我叫王明。','我是学生。','我喜欢吃苹果。'],ans:1},
+{type:'L2',q:'Dialog: A: "你家在哪儿？" B: "_____"',opts:['我家很好。','我的猫叫咪咪。','我家在北京。','我今天很高兴。'],ans:2},
+{type:'L2',q:'Dialog: A: "现在几点？" B: "_____"',opts:['今天星期三。','现在上午九点。','昨天下午三点。','明天八点。'],ans:1},
+{type:'L2',q:'A: "你喝茶吗？" B回答TIDAK yang benar...',opts:['我不喝茶。','我喝茶不。','茶我不。','不，我喝茶。'],ans:0},
+{type:'L2',q:'A: "谢谢你！" B: "_____"',opts:['对不起！','再见！','不客气！','你好！'],ans:2},
+// Partikel
+{type:'L2',q:'Partikel <span class="chinese-text">吗</span> digunakan untuk...',opts:['Menyatakan kepemilikan','Membentuk kalimat tanya ya/tidak','Menyatakan aspek selesai','Menanyakan balik'],ans:1},
+{type:'L2',q:'Partikel <span class="chinese-text">的</span> digunakan untuk...',opts:['Menyatakan pertanyaan','Menyatakan kepemilikan','Menyatakan aspek selesai','Menyatakan negasi'],ans:1},
+{type:'L2',q:'Partikel <span class="chinese-text">了</span> digunakan untuk...',opts:['Menanyakan','Menyatakan kepemilikan','Menyatakan aspek selesai/perubahan','Menyatakan lokasi'],ans:2},
+{type:'L2',q:'Partikel <span class="chinese-text">呢</span> digunakan untuk...',opts:['Menanyakan ya/tidak','Menanyakan balik','Menyatakan kepemilikan','Menyatakan negasi'],ans:1},
+// Kontekstual
+{type:'L2',q:'Dalam kalimat "我在学校学习", kata 在 berfungsi sebagai...',opts:['Kata kerja (berada di)','Kata benda','Kata sifat','Kata tanya'],ans:0},
+{type:'L2',q:'Kata <span class="chinese-text">工作</span> bisa diartikan...',opts:['Hanya kata benda (pekerjaan)','Hanya kata kerja (bekerja)','Kata kerja (bekerja) DAN kata benda (pekerjaan)','Kata sifat'],ans:2},
+{type:'L2',q:'Pilih pelengkap yang tepat:<br>他是 _____ ，在医院工作。',opts:['学生','老师','医生','朋友'],ans:2},
+{type:'L2',q:'Pilih pelengkap yang tepat:<br>天气很热，我想喝 _____。',opts:['米饭','苹果','水','书'],ans:2},
+{type:'L2',q:'Pilih pelengkap yang tepat:<br>我去 _____ 买东西。',opts:['医院','学校','家','商店'],ans:3},
+{type:'L2',q:'Terjemahan "Kucing saya sangat cantik"...',opts:['我的猫很漂亮。','猫很我漂亮。','我猫的漂亮很。','漂亮我的猫很。'],ans:0},
+// Struktur Lanjutan
+{type:'L2',q:'Urutan kata yang benar untuk "Saya mau pergi ke sekolah besok"...',opts:['我明天去学校。','明天我去学校。','我去学校明天。','学校我明天去。'],ans:0},
+{type:'L2',q:'Untuk mengatakan "buku di atas meja"...',opts:['书在桌子上。','桌子书在上。','书桌子在上。','在书桌子上。'],ans:0},
+{type:'L2',q:'Kalimat "Saya punya seekor anjing" yang benar...',opts:['我是一个狗。','我有一个狗。','我狗一个有。','我的狗有一个。'],ans:1},
+{type:'L2',q:'Untuk mengatakan "Dia tidak ada di rumah"...',opts:['她不在家。','她在不家。','她家不在。','不她在家。'],ans:0},
+// Pemahaman Kalimat
+{type:'L2',q:'Arti dari kalimat <span class="chinese-text">今天天气怎么样？</span> adalah...',opts:['Di mana hari ini?','Bagaimana cuaca hari ini?','Kapan hari ini?','Siapa hari ini?'],ans:1},
+{type:'L2',q:'Arti dari kalimat <span class="chinese-text">我没有钱。</span> adalah...',opts:['Saya punya uang.','Saya tidak punya uang.','Saya ingin uang.','Saya banyak uang.'],ans:1},
+{type:'L2',q:'Arti dari kalimat <span class="chinese-text">他在哪儿工作？</span> adalah...',opts:['Dia bekerja apa?','Di mana dia tinggal?','Di mana dia bekerja?','Kapan dia bekerja?'],ans:2},
+{type:'L2',q:'Arti dari kalimat <span class="chinese-text">我们都是学生。</span> adalah...',opts:['Kami adalah guru.','Sebagian kami adalah pelajar.','Kami semua adalah pelajar.','Kami tidak semua pelajar.'],ans:2},
+{type:'L2',q:'Terjemahan "Apel ini berapa harganya?" yang benar...',opts:['这个苹果是什么？','这个苹果多少钱？','这个苹果几个？','这个苹果怎么样？'],ans:1},
+{type:'L2',q:'Pilih kalimat yang tepat untuk "Ibu suka minum teh"...',opts:['妈妈喜欢喝茶。','妈妈茶喝喜欢。','喜欢妈妈茶喝。','妈妈喝喜欢茶。'],ans:0},
+{type:'L2',q:'Arti kalimat <span class="chinese-text">请坐！</span> adalah...',opts:['Silakan minum!','Silakan duduk!','Silakan pergi!','Silakan makan!'],ans:1},
+{type:'L2',q:'Untuk mengatakan "Saya kembali ke rumah", kata kerja yang tepat...',opts:['去','来','回','在'],ans:2},
+{type:'L2',q:'Kata <span class="chinese-text">一点儿</span> artinya...',opts:['Sangat banyak','Terlalu banyak','Sedikit','Cukup'],ans:2},
+{type:'L2',q:'Untuk menanyakan usia seseorang, gunakan kata...',opts:['多少钱','几岁','什么时候','在哪儿'],ans:1},
+{type:'L2',q:'Arti kalimat <span class="chinese-text">明天见！</span> adalah...',opts:['Sampai jumpa sekarang!','Sampai jumpa besok!','Sampai jumpa minggu depan!','Terima kasih sampai jumpa!'],ans:1},
+{type:'L2',q:'Untuk mengatakan "Saya tinggal di Beijing"...',opts:['我去北京住。','我住在北京。','我北京住在。','住北京我在。'],ans:1},
+{type:'L2',q:'Kalimat <span class="chinese-text">你是哪国人？</span> artinya...',opts:['Kamu dari negara mana?','Kamu tinggal di mana?','Kamu bekerja di mana?','Kamu belajar apa?'],ans:0},
+{type:'L2',q:'Kata penghubung untuk "dan" dalam bahasa Mandarin adalah...',opts:['的','也','和','都'],ans:2},
+{type:'L2',q:'Arti <span class="chinese-text">我也是学生。</span> adalah...',opts:['Saya bukan pelajar.','Saya juga pelajar.','Saya seorang pelajar.','Saya dulu pelajar.'],ans:1},
+{type:'L2',q:'Untuk menyatakan "Saya menyukai belajar bahasa Mandarin"...',opts:['我不喜欢学汉语。','我喜欢学汉语。','汉语我学喜欢。','我学汉语喜欢。'],ans:1},
+{type:'L2',q:'Kata yang tepat untuk "di dalam tas": 书包 _____ 有很多书。',opts:['上面','前面','里面','后面'],ans:2},
+{type:'L2',q:'Dialog: A: "你今天去学校吗？" B mengiyakan dengan...',opts:['不，我不去。','对，我今天去学校。','我不知道。','明天我去。'],ans:1},
+{type:'L2',q:'Sapaan formal kepada seseorang yang belum dikenal...',opts:['你好！','喂！','哈哈！','嗯！'],ans:0},
+{type:'L2',q:'Kata Mandarin untuk "uang" adalah...',opts:['东西','衣服','钱','岁'],ans:2},
+{type:'L2',q:'Apa arti <span class="chinese-text">岁</span><span class="pinyin-text">suì</span>?',opts:['Uang','Tahun (umur)','Nama','Menit'],ans:1},
+{type:'L2',q:'Untuk mengucapkan harapan sembuh, kata yang tepat...',opts:['谢谢你！','祝你身体健康！','再见！','不客气！'],ans:1},
+{type:'L2',q:'Apa arti <span class="chinese-text">汉语</span><span class="pinyin-text">Hànyǔ</span>?',opts:['Bahasa Inggris','Bahasa Indonesia','Bahasa Mandarin','Bahasa Jepang'],ans:2},
+{type:'L2',q:'Apa arti <span class="chinese-text">都</span><span class="pinyin-text">dōu</span>?',opts:['Juga','Semua / Juga','Sangat','Terlalu'],ans:1},
+{type:'L2',q:'Apa arti <span class="chinese-text">和</span><span class="pinyin-text">hé</span>?',opts:['Atau','Dan','Karena','Tetapi'],ans:1},
+{type:'L2',q:'Apa arti <span class="chinese-text">这</span><span class="pinyin-text">zhè</span>?',opts:['Itu','Ini','Sana','Sini'],ans:1},
+{type:'L2',q:'Apa arti <span class="chinese-text">那</span><span class="pinyin-text">nà</span>?',opts:['Ini','Itu','Sini','Di sini'],ans:1},
+{type:'L2',q:'Apa arti kalimat <span class="chinese-text">你回来了！</span>?',opts:['Kamu akan pergi!','Kamu sudah kembali!','Kamu di sini!','Kamu datang sekarang!'],ans:1},
+{type:'L2',q:'Kata Mandarin untuk "beberapa" adalah...',opts:['个','本','些','块'],ans:2},
+{type:'L2',q:'Kalimat tanya yang benar untuk "Apakah ini buku kamu?"...',opts:['这本书是你的吗？','这本书你是吗？','你的书这是吗？','是你的书这吗？'],ans:0},
+{type:'L2',q:'Apa arti <span class="chinese-text">做</span><span class="pinyin-text">zuò</span>?',opts:['Duduk','Naik kendaraan','Melakukan / Membuat','Pergi'],ans:2},
+{type:'L2',q:'Apa arti <span class="chinese-text">坐</span><span class="pinyin-text">zuò</span>?',opts:['Membuat','Pergi','Duduk / Naik kendaraan','Berdiri'],ans:2},
+{type:'L2',q:'Untuk mengatakan "Saya mau makan nasi"...',opts:['我想吃米饭。','我吃想米饭。','米饭想我吃。','我不吃米饭。'],ans:0},
+{type:'L2',q:'Apa arti <span class="chinese-text">开</span><span class="pinyin-text">kāi</span>?',opts:['Menutup','Membuka / Mengemudi','Berjalan','Berlari'],ans:1},
+{type:'L2',q:'Apa arti <span class="chinese-text">回</span><span class="pinyin-text">huí</span>?',opts:['Pergi','Datang','Kembali','Tinggal'],ans:2},
+{type:'L2',q:'Kalimat <span class="chinese-text">他叫什么名字？</span> artinya...',opts:['Di mana dia tinggal?','Berapa usianya?','Siapa namanya?','Dari mana asalnya?'],ans:2},
+
+// ══════════════════════════════════════════
+// LATIHAN 3 — PEMAHAMAN KALIMAT & DIALOG (70)
+// ══════════════════════════════════════════
+{type:'L3',q:'<strong>Bacalah:</strong><br><span class="chinese-text">我喜欢吃苹果。</span><br><em>Wǒ xǐhuan chī píngguǒ.</em><br><br>Apa yang disukai orang dalam kalimat ini?',opts:['Minum teh','Makan apel','Membeli buku','Melihat TV'],ans:1},
+{type:'L3',q:'<strong>Bacalah:</strong><br><span class="chinese-text">他是老师，他在学校工作。</span><br><br>Orang ini bekerja sebagai apa dan di mana?',opts:['Dokter di rumah sakit','Guru di sekolah','Murid di sekolah','Penjual di toko'],ans:1},
+{type:'L3',q:'<strong>Bacalah:</strong><br><span class="chinese-text">今天天气很好，不下雨。</span><br><br>Bagaimana cuaca hari ini?',opts:['Hujan deras','Sangat panas','Bagus dan tidak hujan','Sangat dingin'],ans:2},
+{type:'L3',q:'<strong>Bacalah:</strong><br><span class="chinese-text">妈妈去商店买衣服。</span><br><br>Apa yang dilakukan ibu?',opts:['Pergi ke sekolah membeli buku','Pergi ke toko membeli baju','Pergi ke rumah sakit','Pergi ke restoran makan'],ans:1},
+{type:'L3',q:'<strong>Bacalah:</strong><br><span class="chinese-text">我没有猫，我有狗。</span><br><br>Hewan peliharaan apa yang dimiliki?',opts:['Kucing','Anjing','Kucing dan Anjing','Tidak punya hewan'],ans:1},
+// Dialog 1
+{type:'L3',q:'<strong>Dialog:</strong><br>A: Nǐ hǎo! Nǐ jiào shénme míngzi?<br>B: Wǒ jiào Wáng Míng. Nǐ ne?<br>A: Wǒ jiào Lǐ Huá.<br><br>Siapa nama orang A?',opts:['王明 (Wáng Míng)','李华 (Lǐ Huá)','李明 (Lǐ Míng)','王华 (Wáng Huá)'],ans:1},
+{type:'L3',q:'<strong>Dialog:</strong><br>A: Nǐ hǎo! Nǐ jiào shénme míngzi?<br>B: Wǒ jiào Wáng Míng. Nǐ ne?<br>A: Wǒ jiào Lǐ Huá.<br><br>Siapa nama orang B?',opts:['李华 (Lǐ Huá)','李明 (Lǐ Míng)','王明 (Wáng Míng)','王华 (Wáng Huá)'],ans:2},
+{type:'L3',q:'<strong>Dialog:</strong><br>A: Nǐ shì xuésheng ma?<br>B: Duì, wǒ shì xuésheng. Wǒ zài Běijīng xuéxiào xuéxí.<br><br>Di mana B belajar?',opts:['Di Shanghai','Di rumah','Di sekolah Beijing','Di rumah sakit'],ans:2},
+{type:'L3',q:'<strong>Dialog:</strong><br>A: Wǒ shì lǎoshī, wǒ zài xuéxiào gōngzuò.<br><br>Orang A berstatus sebagai apa?',opts:['Murid','Dokter','Guru','Pedagang'],ans:2},
+// Dialog 2 (Jual Beli)
+{type:'L3',q:'<strong>Dialog:</strong><br>A: Wǒ xiǎng mǎi píngguǒ, duōshǎo qián?<br>B: Wǔ kuài qián yī gè.<br><br>Orang A ingin membeli apa?',opts:['Teh','Nasi','Apel','Buku'],ans:2},
+{type:'L3',q:'<strong>Dialog:</strong><br>A: Wǒ xiǎng mǎi píngguǒ, duōshǎo qián?<br>B: Wǔ kuài qián yī gè.<br><br>Berapa harga satu buah apel?',opts:['3 yuan','4 yuan','5 yuan','6 yuan'],ans:2},
+{type:'L3',q:'<strong>Dialog:</strong><br>A: Wǒ mǎi liǎng gè. Zhège dà ma?<br>B: Duì, zhège hěn dà, hěn hǎo chī.<br><br>Berapa buah yang dibeli A?',opts:['1 buah','2 buah','3 buah','4 buah'],ans:1},
+{type:'L3',q:'<strong>Dialog:</strong><br>A: Hǎo, xièxie!<br>B: Bú kèqi!<br><br>Apa yang diucapkan B sebagai balasan terima kasih?',opts:['谢谢！','再见！','不客气！','对不起！'],ans:2},
+// Dialog 3 (Sakit)
+{type:'L3',q:'<strong>Dialog:</strong><br>A: Wèi! Nǐ xiànzài zài nǎr?<br>B: Wǒ zài jiā. Nǐ ne?<br>A: Wǒ zài xuéxiào.<br><br>Orang A berada di mana?',opts:['Di rumah','Di toko','Di sekolah','Di rumah sakit'],ans:2},
+{type:'L3',q:'<strong>Dialog:</strong><br>A: Wèi! Nǐ xiànzài zài nǎr?<br>B: Wǒ zài jiā.<br><br>Orang B berada di mana?',opts:['Di sekolah','Di rumah','Di toko','Di rumah sakit'],ans:1},
+{type:'L3',q:'<strong>Dialog:</strong><br>B: Jīntiān wǒ shēntǐ bù hǎo, wǒ yào qù yīyuàn.<br><br>Mengapa B tidak datang ke sekolah?',opts:['Sedang belanja','Sedang belajar','Badannya tidak enak','Tidak ada alasan'],ans:2},
+{type:'L3',q:'<strong>Dialog:</strong><br>B: Duì, xiàwǔ wǒ qù kàn yīshēng. Míngtiān wǒ lái xuéxiào.<br><br>Kapan B akan pergi ke dokter?',opts:['Pagi ini','Siang ini','Sore ini (下午)','Besok pagi'],ans:2},
+{type:'L3',q:'<strong>Dialog:</strong><br>B: Míngtiān wǒ lái xuéxiào.<br><br>Kapan B berencana datang ke sekolah?',opts:['Hari ini','Besok','Minggu depan','Lusa'],ans:1},
+// Angka & Waktu
+{type:'L3',q:'<span class="chinese-text">现在是上午九点三十分钟。</span><br><br>Pukul berapa sekarang?',opts:['07:30 pagi','08:30 pagi','09:30 pagi','09:00 pagi'],ans:2},
+{type:'L3',q:'<span class="chinese-text">我有六个朋友，他们都是学生。</span><br><br>Berapa jumlah teman?',opts:['4 teman','5 teman','6 teman','7 teman'],ans:2},
+{type:'L3',q:'<span class="chinese-text">今天是三月十四号。</span><br><br>Tanggal berapa hari ini?',opts:['3 Maret','14 Maret','14 Januari','3 Januari'],ans:1},
+{type:'L3',q:'<span class="chinese-text">我妈妈今年四十八岁。</span><br><br>Berapa usia ibu?',opts:['38 tahun','48 tahun','58 tahun','84 tahun'],ans:1},
+{type:'L3',q:'<span class="chinese-text">这个苹果五块钱，那个八块钱。</span><br><br>Berapa harga apel yang pertama?',opts:['3 yuan','5 yuan','8 yuan','10 yuan'],ans:1},
+// Benar / Salah
+{type:'L3',q:'<span class="chinese-text">今天是星期六，明天是星期天。</span><br><br>Pernyataan: "Hari ini hari Minggu" — Benar atau Salah?',opts:['对 (Benar)','错 (Salah)'],ans:1},
+{type:'L3',q:'<span class="chinese-text">他每天上午去学校，下午回家睡觉。</span><br><br>Pernyataan: "Dia pergi ke sekolah setiap pagi" — Benar atau Salah?',opts:['对 (Benar)','错 (Salah)'],ans:0},
+{type:'L3',q:'<span class="chinese-text">猫在桌子下面，狗在桌子前面。</span><br><br>Pernyataan: "Anjing ada di bawah meja" — Benar atau Salah?',opts:['对 (Benar)','错 (Salah)'],ans:1},
+{type:'L3',q:'<span class="chinese-text">妈妈喝茶，爸爸喝水。</span><br><br>Pernyataan: "Ibu minum air, ayah minum teh" — Benar atau Salah?',opts:['对 (Benar)','错 (Salah)'],ans:1},
+{type:'L3',q:'<span class="chinese-text">这是一张桌子，桌子上有两本书。</span><br><br>Pernyataan: "Di atas meja ada 2 buku" — Benar atau Salah?',opts:['对 (Benar)','错 (Salah)'],ans:0},
+// Pilih Situasi
+{type:'L3',q:'<span class="chinese-text">这是一张桌子，桌子上有两本书。</span><br><br>Situasi yang tepat adalah...',opts:['Meja kosong','Meja dengan 1 buku','Meja dengan 2 buku','Meja dengan 3 buku'],ans:2},
+{type:'L3',q:'<span class="chinese-text">妈妈喝茶，爸爸喝水。</span><br><br>Situasi yang tepat adalah...',opts:['Ibu minum air, ayah minum teh','Keduanya minum teh','Ibu minum teh, ayah minum air','Keduanya minum air'],ans:2},
+{type:'L3',q:'<span class="chinese-text">今天是星期六，明天是星期天。</span><br><br>Situasi yang tepat adalah...',opts:['Hari ini Jumat, besok Sabtu','Hari ini Sabtu, besok Minggu','Hari ini Minggu, besok Senin','Hari ini Kamis'],ans:1},
+{type:'L3',q:'<span class="chinese-text">他每天上午去学校，下午回家睡觉。</span><br><br>Jadwal yang benar adalah...',opts:['Pagi ke RS, sore ke sekolah','Pagi ke sekolah, sore tidur di sana','Pagi ke sekolah, sore pulang dan tidur','Setiap hari tidur di sekolah'],ans:2},
+{type:'L3',q:'<span class="chinese-text">猫在桌子下面，狗在桌子前面。</span><br><br>Posisi yang benar adalah...',opts:['Kucing di depan, anjing di bawah','Kucing di bawah meja, anjing di depan meja','Keduanya di bawah meja','Keduanya di depan meja'],ans:1},
+// Pemahaman Konteks
+{type:'L3',q:'Kalimat <span class="chinese-text">我是中国人。</span> artinya orang ini berasal dari...',opts:['Jepang','Korea','Indonesia','China/Tiongkok'],ans:3},
+{type:'L3',q:'Jika seseorang berkata <span class="chinese-text">我很高兴认识你！</span>, berarti dia...',opts:['Tidak senang bertemu kamu','Senang berkenalan dengan kamu','Ingin pergi','Sedang marah'],ans:1},
+{type:'L3',q:'Jika seseorang berkata <span class="chinese-text">我不舒服。</span> berarti...',opts:['Dia merasa nyaman','Dia merasa tidak enak badan','Dia lapar','Dia mengantuk'],ans:1},
+{type:'L3',q:'Respons yang tepat untuk <span class="chinese-text">谢谢！</span> adalah...',opts:['对不起！','再见！','不客气！','你好！'],ans:2},
+{type:'L3',q:'Respons yang tepat untuk <span class="chinese-text">对不起！</span> adalah...',opts:['谢谢！','没关系！','再见！','你好！'],ans:1},
+{type:'L3',q:'Ekspresi <span class="chinese-text">喂！</span> biasanya digunakan ketika...',opts:['Bertemu teman','Mengakhiri percakapan','Menjawab telepon','Memesan makanan'],ans:2},
+{type:'L3',q:'Jika seseorang berkata <span class="chinese-text">我想喝水。</span>, berarti dia...',opts:['Ingin makan','Ingin minum air','Ingin tidur','Ingin belajar'],ans:1},
+{type:'L3',q:'<span class="chinese-text">你吃饭了吗？</span> artinya...',opts:['Apakah kamu suka makan?','Kamu makan apa?','Apakah kamu sudah makan?','Kamu mau makan di mana?'],ans:2},
+{type:'L3',q:'Seseorang berkata: "Jīntiān tiānqì tài lěng le!" Situasinya adalah...',opts:['Sangat panas hari ini','Cuacanya bagus','Sangat dingin hari ini','Sedang hujan'],ans:2},
+{type:'L3',q:'Seseorang berkata: "Wǒ yào qù mǎi dōngxi." Orang ini akan pergi ke...',opts:['Sekolah','Rumah sakit','Toko','Rumah'],ans:2},
+{type:'L3',q:'Seseorang berkata: "Wǒ méiyǒu qián." Artinya...',opts:['Dia punya banyak uang','Dia tidak punya uang','Dia ingin uang','Dia kehilangan uang'],ans:1},
+{type:'L3',q:'Seseorang berkata: "Wǒ bù xǐhuan chī cài." Artinya...',opts:['Dia suka makan sayuran','Dia tidak suka makan sayuran','Dia tidak bisa masak','Dia tidak lapar'],ans:1},
+{type:'L3',q:'Situasi: Seseorang baru saja bertemu teman lama. Ungkapan yang tepat...',opts:['再见！','对不起！','很高兴认识你！','喂！'],ans:2},
+{type:'L3',q:'Kalimat <span class="chinese-text">我们明天见！</span> artinya...',opts:['Kita bertemu tadi','Kita sudah bertemu','Kita bertemu besok','Kita tidak bertemu'],ans:2},
+{type:'L3',q:'Pernyataan <span class="chinese-text">她很漂亮。</span> mendeskripsikan...',opts:['Dia sangat pintar','Dia sangat cantik','Dia sangat baik','Dia sangat tinggi'],ans:1},
+{type:'L3',q:'Kalimat <span class="chinese-text">爸爸妈妈都在家。</span> artinya...',opts:['Ayah di rumah, ibu tidak','Ibu di rumah, ayah tidak','Ayah dan ibu keduanya di rumah','Tidak ada yang di rumah'],ans:2},
+{type:'L3',q:'Jika seseorang berkata <span class="chinese-text">我回家了！</span>, artinya...',opts:['Saya akan pergi ke rumah','Saya sudah kembali ke rumah','Saya di rumah sekarang','Saya ingin ke rumah'],ans:1},
+{type:'L3',q:'<span class="chinese-text">你会说汉语吗？</span> artinya...',opts:['Kamu belajar bahasa Mandarin?','Apakah kamu bisa berbicara bahasa Mandarin?','Kamu suka bahasa Mandarin?','Kamu mengajar bahasa Mandarin?'],ans:1},
+{type:'L3',q:'Kalimat <span class="chinese-text">我有两个孩子，一个儿子，一个女儿。</span> artinya...',opts:['Saya punya 2 teman','Saya punya 2 anak, 1 laki 1 perempuan','Saya punya 2 saudara','Saya punya 2 kucing'],ans:1},
+{type:'L3',q:'<span class="chinese-text">他会开车。</span> artinya...',opts:['Dia tidak bisa mengemudi','Dia bisa mengemudi','Dia ingin belajar mengemudi','Dia sedang mengemudi'],ans:1},
+{type:'L3',q:'Kalimat <span class="chinese-text">今天我很高兴。</span> menunjukkan bahwa...',opts:['Dia sedih hari ini','Dia marah hari ini','Dia senang hari ini','Dia kelelahan hari ini'],ans:2},
+{type:'L3',q:'<span class="chinese-text">她不喜欢喝茶，她喜欢喝水。</span> artinya...',opts:['Dia suka teh dan air','Dia tidak suka teh, tapi suka air','Dia tidak suka air, tapi suka teh','Dia tidak suka keduanya'],ans:1},
+{type:'L3',q:'Dialog: A: "Nǐ jiā yǒu jǐ gè rén?" B: "Wǒ jiā yǒu sì gè rén."<br><br>Berapa orang anggota keluarga B?',opts:['2 orang','3 orang','4 orang','5 orang'],ans:2},
+{type:'L3',q:'Kalimat <span class="chinese-text">他每天学习汉语。</span> artinya...',opts:['Dia kadang-kadang belajar Mandarin','Dia belajar Mandarin setiap hari','Dia tidak mau belajar Mandarin','Dia sudah lulus HSK'],ans:1},
+{type:'L3',q:'<span class="chinese-text">我的名字叫李小龙。</span> artinya...',opts:['Nama guru saya Li Xiaolong','Nama saya Li Xiaolong','Nama teman saya Li Xiaolong','Nama anjing saya Li Xiaolong'],ans:1},
+{type:'L3',q:'Dialog: A: "Nǐ chī wǔfàn le ma?" B: "Chī le."<br><br>Apakah B sudah makan siang?',opts:['Belum makan','Sudah makan','Tidak mau makan','Masih makan'],ans:1},
+{type:'L3',q:'Kalimat <span class="chinese-text">外面下雨了，带伞吧。</span> saran yang diberikan adalah...',opts:['Makan dulu','Bawa payung','Pulang ke rumah','Pakai jaket'],ans:1},
+{type:'L3',q:'<span class="chinese-text">他是我的同学，我们都学汉语。</span> artinya...',opts:['Dia guru saya, mengajar Mandarin','Dia teman sekelas, kami sama-sama belajar Mandarin','Dia teman saya, tapi tidak belajar Mandarin','Dia murid saya'],ans:1},
+{type:'L3',q:'Dialog: A: "Xièxie nǐ!" B: "Bú kèqi!"<br><br>Apa arti respons B?',opts:['Maaf!','Sama-sama / Tidak perlu sungkan!','Terima kasih!','Sampai jumpa!'],ans:1},
+
+];
+
+// ════════════════════════════════════════════════════════════
+//  QUIZ ENGINE
+// ════════════════════════════════════════════════════════════
+let selectedQuestions = [];
+let currentIndex = 0;
+let score = 0;
+let userAnswers = [];
+let timerInterval = null;
+let elapsedSeconds = 0;
+let reviewVisible = false;
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function startQuiz() {
+  const l1 = shuffle(questionBank.filter(q => q.type === 'L1'));
+  const l2 = shuffle(questionBank.filter(q => q.type === 'L2'));
+  const l3 = shuffle(questionBank.filter(q => q.type === 'L3'));
+  const pick = [...l1.slice(0, 17), ...l2.slice(0, 17), ...l3.slice(0, 16)];
+  selectedQuestions = shuffle(pick);
+
+  currentIndex = 0; score = 0; userAnswers = []; elapsedSeconds = 0;
+
+  document.getElementById('start-screen').style.display = 'none';
+  document.getElementById('result-screen').style.display = 'none';
+  const qs = document.getElementById('quiz-screen');
+  qs.style.display = 'block'; qs.style.animation = 'none';
+  void qs.offsetHeight; qs.style.animation = 'fadeIn .4s ease';
+
+  startTimer(); renderQuestion();
+}
+
+function startTimer() {
+  clearInterval(timerInterval); elapsedSeconds = 0;
+  timerInterval = setInterval(() => {
+    elapsedSeconds++;
+    const m = String(Math.floor(elapsedSeconds / 60)).padStart(2, '0');
+    const s = String(elapsedSeconds % 60).padStart(2, '0');
+    document.getElementById('timer-text').textContent = `${m}:${s}`;
+  }, 1000);
+}
+
+function renderQuestion() {
+  const q = selectedQuestions[currentIndex];
+  const total = selectedQuestions.length;
+  const pct = Math.round(((currentIndex + 1) / total) * 100);
+
+  document.getElementById('q-num-display').textContent = `${currentIndex + 1} / ${total}`;
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-pct').textContent = pct + '%';
+
+  const badge = document.getElementById('type-badge');
+  const lbl = { L1:'📖 Latihan 1 — Kosakata', L2:'✏️ Latihan 2 — Kalimat', L3:'🎧 Latihan 3 — Pemahaman' };
+  badge.textContent = lbl[q.type]; badge.className = 'type-badge type-' + q.type;
+
+  document.getElementById('question-text').innerHTML = q.q;
+
+  const grid = document.getElementById('options-grid');
+  grid.innerHTML = '';
+  grid.className = 'options-grid' + (q.opts.length === 2 ? ' single-col' : '');
+
+  const lbls = ['A', 'B', 'C', 'D'];
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn'; btn.id = `opt-${i}`;
+    btn.innerHTML = `<span class="opt-label">${lbls[i]}</span>${opt}`;
+    btn.onclick = () => selectAnswer(i);
+    grid.appendChild(btn);
+  });
+
+  document.getElementById('question-card').className = 'question-card';
+  document.getElementById('feedback-box').className = 'feedback-box';
+  document.getElementById('btn-next').className = 'btn-next';
+  document.getElementById('btn-next').textContent = currentIndex < total - 1 ? 'Soal Berikutnya →' : 'Lihat Hasil 🏁';
+}
+
+function selectAnswer(idx) {
+  const q = selectedQuestions[currentIndex];
+  const correct = q.ans;
+  const isCorrect = idx === correct;
+
+  document.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
+  document.getElementById(`opt-${correct}`).classList.add('correct');
+  if (!isCorrect) document.getElementById(`opt-${idx}`).classList.add('wrong');
+
+  document.getElementById('question-card').classList.add(isCorrect ? 'answered-correct' : 'answered-wrong');
+
+  const fb = document.getElementById('feedback-box');
+  const fbIcon = document.getElementById('feedback-icon');
+  const fbText = document.getElementById('feedback-text');
+
+  if (isCorrect) {
+    score++;
+    fb.className = 'feedback-box correct-fb show';
+    fbIcon.textContent = '✅';
+    fbText.innerHTML = `<strong>Benar!</strong> Jawaban kamu tepat.`;
+  } else {
+    fb.className = 'feedback-box wrong-fb show';
+    fbIcon.textContent = '❌';
+    fbText.innerHTML = `<strong>Salah.</strong> Jawaban yang benar: <strong>${q.opts[correct]}</strong>`;
+  }
+
+  userAnswers.push({ q, selected: idx, correct, isCorrect });
+  document.getElementById('btn-next').classList.add('visible');
+}
+
+function nextQuestion() {
+  currentIndex++;
+  if (currentIndex >= selectedQuestions.length) { showResults(); return; }
+  const card = document.getElementById('question-card');
+  card.style.opacity = '0'; card.style.transform = 'translateY(10px)';
+  setTimeout(() => {
+    renderQuestion();
+    card.style.transition = 'opacity .3s, transform .3s';
+    card.style.opacity = '1'; card.style.transform = 'translateY(0)';
+  }, 150);
+}
+
+function showResults() {
+  clearInterval(timerInterval);
+  const total = selectedQuestions.length;
+  const pct = Math.round((score / total) * 100);
+  const wrong = total - score;
+
+  document.getElementById('quiz-screen').style.display = 'none';
+  const rs = document.getElementById('result-screen');
+  rs.style.display = 'block'; rs.style.animation = 'none';
+  void rs.offsetHeight; rs.style.animation = 'fadeIn .5s ease';
+
+  let emoji, gradeText, gradeClass;
+  if (score >= 46) { emoji='🥇'; gradeText='Sangat Siap — Lanjut ke HSK 2!'; gradeClass='lulus-sempurna'; }
+  else if (score >= 40) { emoji='🥈'; gradeText='Siap — Sedikit review lagi'; gradeClass='lulus-baik'; }
+  else if (score >= 35) { emoji='🥉'; gradeText='Cukup — Perlu latihan lebih banyak'; gradeClass='lulus'; }
+  else { emoji='📖'; gradeText='Belum Lulus — Belajar lebih giat!'; gradeClass='tidak-lulus'; }
+
+  document.getElementById('result-emoji').textContent = emoji;
+  document.getElementById('result-score-big').textContent = score;
+  document.getElementById('result-pct').textContent = pct + '%';
+  document.getElementById('result-grade').textContent = gradeText;
+  document.getElementById('result-grade').className = 'result-grade ' + gradeClass;
+  document.getElementById('sc-correct').textContent = score;
+  document.getElementById('sc-wrong').textContent = wrong;
+  document.getElementById('sc-accuracy').textContent = pct + '%';
+
+  const m = String(Math.floor(elapsedSeconds / 60)).padStart(2, '0');
+  const s = String(elapsedSeconds % 60).padStart(2, '0');
+  document.getElementById('result-meta').textContent = `Waktu: ${m}:${s} • ${total} soal`;
+
+  ['ps-1','ps-2','ps-3','ps-4'].forEach(id => document.getElementById(id).classList.remove('current'));
+  if (score >= 46) document.getElementById('ps-1').classList.add('current');
+  else if (score >= 40) document.getElementById('ps-2').classList.add('current');
+  else if (score >= 35) document.getElementById('ps-3').classList.add('current');
+  else document.getElementById('ps-4').classList.add('current');
+
+  buildReview();
+}
+
+function buildReview() {
+  const list = document.getElementById('review-list');
+  list.innerHTML = '';
+  const lbls = ['A','B','C','D'];
+  userAnswers.forEach((a, i) => {
+    const div = document.createElement('div');
+    div.className = 'review-item ' + (a.isCorrect ? 'rev-correct' : 'rev-wrong');
+    let html = `<div class="rev-q"><strong>${i+1}.</strong> ${a.q.q}</div><div class="rev-answers">`;
+    if (a.isCorrect) {
+      html += `<span class="rev-your correct-ans">✅ Kamu: ${lbls[a.selected]} — ${a.q.opts[a.selected]}</span>`;
+    } else {
+      html += `<span class="rev-your wrong-ans">❌ Kamu: ${lbls[a.selected]} — ${a.q.opts[a.selected]}</span>`;
+      html += `<span class="rev-correct-ans">✅ Benar: ${lbls[a.correct]} — ${a.q.opts[a.correct]}</span>`;
+    }
+    html += `</div>`;
+    div.innerHTML = html; list.appendChild(div);
+  });
+}
+
+function retryQuiz() {
+  document.getElementById('result-screen').style.display = 'none';
+  document.getElementById('review-section').style.display = 'none';
+  document.getElementById('start-screen').style.display = 'block';
+  reviewVisible = false;
+  document.getElementById('btn-review-toggle').textContent = '📋 Lihat Review';
+}
+
+function toggleReview() {
+  reviewVisible = !reviewVisible;
+  document.getElementById('review-section').style.display = reviewVisible ? 'block' : 'none';
+  document.getElementById('btn-review-toggle').textContent = reviewVisible ? '🙈 Sembunyikan Review' : '📋 Lihat Review';
+  if (reviewVisible) document.getElementById('review-section').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
+
